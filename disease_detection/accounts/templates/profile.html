@@ -1,0 +1,11 @@
+<html>
+<head>
+    <title>User Profile</title>
+</head>
+<body>
+    <h1>Profile</h1>
+    <p>Welcome, {{ user.username }}!</p>
+    <a href="{% url 'logout' %}">Logout</a>
+    <a href="{% url 'home' %}">Back to Home</a>
+</body>
+</html>
