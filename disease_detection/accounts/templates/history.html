@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Detection History</title>
+    <style>
+        /* ... Include the same root variables and sidebar styles from profile.html ... */
+
+        .history-card {
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: var(--box-shadow);
+        }
+
+        .history-item {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            border-bottom: 1px solid var(--accent-color);
+        }
+
+        .history-item:last-child {
+            border-bottom: none;
+        }
+
+        .history-image {
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+            border-radius: var(--border-radius);
+            margin-right: 20px;
+        }
+
+        .history-details {
+            flex: 1;
+        }
+
+        .history-prediction {
+            font-weight: 600;
+            color: var(--primary-color);
+            font-size: 1.1rem;
+            margin-bottom: 5px;
+        }
+
+        .history-timestamp {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .no-history {
+            text-align: center;
+            padding: 30px;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="sidebar-logo">
+            <h2>Plant Disease AI</h2>
+        </div>
+        <ul class="sidebar-menu">
+            <li><a href="{% url 'home' %}">🏠 Dashboard</a></li>
+            <li><a href="{% url 'profile' %}">👤 Profile</a></li>
+            <li><a href="{% url 'history' %}" style="background-color: var(--primary-hover);">📊 History</a></li>
+            <li><a href="#">ℹ️ About</a></li>
+            {% if user.is_authenticated %}
+            <li>
+                <form method="post" action="{% url 'logout' %}">
+                    {% csrf_token %}
+                    <button type="submit" style="color: white; background: none; border: none; width: 100%; text-align: left; padding: 10px 15px; cursor: pointer;">
+                        🚪 Logout
+                    </button>
+                </form>
+            </li>
+            {% endif %}
+        </ul>
+    </div>
+
+    <!-- Main content -->
+    <div class="main-content">
+        <div class="container">
+            <div class="history-card">
+                <h1>Detection History</h1>
+                <p>Debug: Template loaded successfully</p>
+                
+                {% if history_items %}
+                    <p>Found {{ history_items|length }} items</p>
+                    {% for item in history_items %}
+                    <div class="history-item">
+                        <img src="{{ item.image.url }}" alt="Plant Image" class="history-image">
+                        <div class="history-details">
+                            <div class="history-prediction">{{ item.prediction }}</div>
+                            <div class="history-timestamp">{{ item.timestamp|date:"F j, Y, g:i a" }}</div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                {% else %}
+                    <div class="no-history">
+                        <p>No detection history found. Try detecting some plant diseases!</p>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</body>
+</html> 

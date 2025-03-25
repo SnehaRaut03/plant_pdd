@@ -259,6 +259,8 @@ def get_requirements(request, plant_name):
 def home(request):
     """Render the home page template"""
     return render(request, 'home.html')
+def history(request):
+    return render(request, 'history.html')  
 
 def test_model(request):
     """
