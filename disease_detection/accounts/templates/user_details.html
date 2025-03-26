@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>User Details</title>
+    <!-- Your existing styles -->
+</head>
+<body>
+    <div class="sidebar">
+        <!-- Your existing sidebar -->
+    </div>
+
+    <div class="main-content">
+        <div class="container">
+            <h1>User Details: {{ viewed_user.username }}</h1>
+            
+            <div class="user-info">
+                <h2>User Information</h2>
+                <p>Username: {{ viewed_user.username }}</p>
+                <p>Email: {{ viewed_user.email }}</p>
+                <p>Joined: {{ viewed_user.date_joined|date:"F j, Y" }}</p>
+            </div>
+
+            <div class="history-card">
+                <h2>Detection History</h2>
+                {% if history %}
+                    {% for item in history %}
+                    <div class="history-item">
+                        <img src="{{ item.image.url }}" alt="Plant Image" class="history-image">
+                        <div class="history-details">
+                            <div class="history-prediction">{{ item.prediction }}</div>
+                            <div class="history-timestamp">{{ item.timestamp|date:"F j, Y, g:i a" }}</div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                {% else %}
+                    <p>No detection history found.</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</body>
+</html>

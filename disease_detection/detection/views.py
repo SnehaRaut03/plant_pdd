@@ -11,6 +11,7 @@ from tensorflow.keras.models import load_model
 from PIL import Image
 import pandas as pd
 from urllib.parse import unquote
+from .models import DetectionHistory
 
 
 
@@ -181,6 +182,7 @@ def predict(request):
             # Get top 3 predictions for display
             top_indices = np.argsort(predictions[0])[-3:][::-1]
             top_predictions = {class_names[i]: float(predictions[0][i]) for i in top_indices}
+            
 
             treatment_info = treatment_df[treatment_df['Disease_Name'] == predicted_class_name]
             if not treatment_info.empty:
@@ -196,6 +198,13 @@ def predict(request):
             
             # Clean memory
             gc.collect()
+            
+            # After getting the prediction, save it to history
+            DetectionHistory.objects.create(
+                user=request.user,
+                image=request.FILES['image'],
+                prediction=predicted_class_name
+            )
             
             # Return prediction results
             return JsonResponse({
@@ -260,7 +269,8 @@ def home(request):
     """Render the home page template"""
     return render(request, 'home.html')
 def history(request):
-    return render(request, 'history.html')  
+    history_items = DetectionHistory.objects.filter(user=request.user)
+    return render(request, 'history.html', {'history_items': history_items})
 
 def test_model(request):
     """
