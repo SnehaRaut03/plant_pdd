@@ -1,7 +1,8 @@
+{% load i18n %}
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Detection History</title>
+    <title>{% trans "Detection History" %}</title>
     <style>
         :root {
             --primary-color: #3a7e45;
@@ -51,6 +52,7 @@
             border-radius: var(--border-radius);
             background-color: var(--secondary-color);
             transition: transform 0.2s, box-shadow 0.2s;
+            position: relative;
         }
 
         .history-item:hover {
@@ -234,37 +236,95 @@
             margin: 0 auto;
             width: 100%;
         }
+
+        .delete-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            color: #dc3545;
+            background-color: rgba(255, 255, 255, 0.8);
+            border-radius: 50%;
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+            opacity: 0.7;
+        }
+
+        .delete-btn:hover {
+            opacity: 1;
+            background-color: rgba(255, 255, 255, 1);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Language switcher styles */
+        .language-switcher {
+            display: flex;
+            align-items: center;
+            margin: 15px auto;
+            justify-content: center;
+        }
+        .language-label {
+            margin-right: 10px;
+            color: white;
+        }
+        .language-button {
+            padding: 5px 10px;
+            border: 1px solid white;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 0 5px;
+            color: white;
+            text-decoration: none;
+            display: inline-block;
+        }
+        .language-active {
+            background-color: white;
+            color: var(--primary-color);
+        }
+        .language-inactive {
+            background-color: transparent;
+            color: white;
+        }
     </style>
 </head>
 <body>
     <!-- Keep your existing sidebar HTML -->
     <div class="sidebar">
         <div class="sidebar-logo">
-            <h2>Plant Health</h2>
+            <h2>{% trans "Plant Health" %}</h2>
         </div>
+        
+        {% include "inline_language_switcher.html" %}
+        
         <nav class="sidebar-nav">
             <a href="{% url 'home' %}">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
                     <polyline points="9 22 9 12 15 12 15 22"/>
                 </svg>
-                Home
+                {% trans "Home" %}
             </a>
+        
             <a href="{% url 'profile' %}">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-user">
                     <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/>
                     <circle cx="12" cy="7" r="4"/>
                 </svg>
-                Profile
+                {% trans "Profile" %}
             </a>
-            <a href="{% url 'history' %}" style="background-color: var(--primary-hover);">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        
+            <a href="{% url 'history' %}">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-history">
                     <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/>
                     <path d="M3 3v5h5"/>
                     <path d="M12 7v5l4 2"/>
                 </svg>
-                History
+                {% trans "History" %}
             </a>
+            {% if user.userprofile.is_admin %}
             <a href="{% url 'manage_users' %}">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/>
@@ -272,20 +332,20 @@
                     <path d="M22 21v-2a4 4 0 0 0-3-3.87"/>
                     <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
                 </svg>
-                Manage Users
+                {% trans "Manage Users" %}
             </a>
-        
+            {% endif %}
         </nav>
         <div class="sidebar-bottom">
             <form method="post" action="{% url 'logout' %}">
                 {% csrf_token %}
                 <button type="submit">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-log-out">
                         <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
                         <polyline points="16 17 21 12 16 7"/>
                         <line x1="21" x2="9" y1="12" y2="12"/>
                     </svg>
-                    Logout
+                    {% trans "Logout" %}
                 </button>
             </form>
         </div>
@@ -294,20 +354,36 @@
     <div class="main-content">
         <div class="container">
             <div class="history-card">
-                <h1>Detection History</h1>
+                <h1>{% trans "Detection History" %}</h1>
                 {% if history_items %}
                     {% for item in history_items %}
                     <div class="history-item">
-                        <img src="{{ item.image.url }}" alt="Plant Image" class="history-image">
+                        <img src="{{ item.image.url }}" alt="{% trans "Leaf Image" %}" class="history-image">
                         <div class="history-details">
-                            <div class="history-prediction">{{ item.prediction }}</div>
-                            <div class="history-timestamp">Detected on {{ item.timestamp|date:"F j, Y, g:i a" }}</div>
+                            <div class="history-prediction">{% trans "Prediction:" %} {{ item.prediction }}</div>
+                            <div class="history-timestamp">{% trans "Detected on:" %} {{ item.created_at }}</div>
+                            <a href="{% url 'report' item.id %}" class="btn btn-primary" style="text-decoration: none; padding: 8px 12px; background-color: #3a7e45; color: white; border-radius: 4px; display: inline-block; margin-top: 10px;">
+                                {% trans "Download Report" %}
+                            </a>
                         </div>
+                        {% with delete_confirmation=_("Are you sure you want to delete this item?") %}
+                        <form method="post" action="{% url 'delete_history' item.id %}" class="delete-form" onsubmit="return confirm('{{ delete_confirmation }}');">
+                            {% csrf_token %}
+                            <button type="submit" class="delete-btn" title="{% trans "Delete" %}">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <polyline points="3 6 5 6 21 6"></polyline>
+                                    <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                                    <line x1="10" y1="11" x2="10" y2="17"></line>
+                                    <line x1="14" y1="11" x2="14" y2="17"></line>
+                                </svg>
+                            </button>
+                        </form>
+                        {% endwith %}
                     </div>
                     {% endfor %}
                 {% else %}
                     <div class="no-history">
-                        <p>No detection history found. Try detecting some plant diseases!</p>
+                        <p>{% trans "You haven't made any detections yet." %}</p>
                     </div>
                 {% endif %}
             </div>

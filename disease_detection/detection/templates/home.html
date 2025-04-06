@@ -1,6 +1,7 @@
+{% load i18n %}
 <html>
 <head>
-<title>Plant Disease Detection</title>
+<title>{% trans "Plant Disease Detection" %}</title>
 <style>
 :root {
     --primary-color: #3a7e45;
@@ -304,20 +305,87 @@ body {
     color: var(--primary-color);
     font-size: 1.2rem;
 }
+.weather-widget {
+    margin-bottom: 30px;
+}
+.weather-card {
+    background-color: white;
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+    overflow: hidden;
+    max-width: 400px;
+    margin: 0 auto;
+}
+.weather-header {
+    background-color: var(--primary-color);
+    color: white;
+    padding: 15px;
+    text-align: center;
+}
+.weather-content {
+    display: flex;
+    padding: 20px;
+}
+.weather-icon img {
+    width: 100px;
+    height: 100px;
+}
+.weather-details {
+    flex: 1;
+    padding-left: 15px;
+}
+.weather-temp {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--primary-color);
+    margin-bottom: 5px;
+}
+.weather-desc {
+    font-size: 1.2rem;
+    color: #666;
+    margin-bottom: 10px;
+}
+.weather-meta {
+    display: flex;
+    flex-direction: column;
+    font-size: 0.9rem;
+    color: #666;
+}
+.weather-meta span {
+    margin-bottom: 5px;
+}
+.nepal-time {
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.8);
+    margin-top: 5px;
+}
+.report-buttons {
+    display: flex;
+    flex-direction: column;
+    margin-top: 15px;
+}
 </style>
 </head>
 <body>
 <div class="sidebar">
     <div class="sidebar-logo">
-        <h2>Plant Health</h2>
+        <h2>{% trans "Plant Health" %}</h2>
     </div>
     <nav class="sidebar-nav">
+        <a href="{% url 'home' %}">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+                <polyline points="9 22 9 12 15 12 15 22"/>
+            </svg>
+            {% trans "Home" %}
+        </a>
+    
         <a href="{% url 'profile' %}">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-user">
                 <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/>
                 <circle cx="12" cy="7" r="4"/>
             </svg>
-            Profile
+            {% trans "Profile" %}
         </a>
     
         <a href="{% url 'history' %}">
@@ -326,7 +394,7 @@ body {
                 <path d="M3 3v5h5"/>
                 <path d="M12 7v5l4 2"/>
             </svg>
-            History
+            {% trans "History" %}
         </a>
         {% if user.userprofile.is_admin %}
         <a href="{% url 'manage_users' %}">
@@ -336,7 +404,7 @@ body {
                 <path d="M22 21v-2a4 4 0 0 0-3-3.87"/>
                 <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
             </svg>
-            Manage Users
+            {% trans "Manage Users" %}
         </a>
         {% endif %}
     </nav>
@@ -349,64 +417,97 @@ body {
                     <polyline points="16 17 21 12 16 7"/>
                     <line x1="21" x2="9" y1="12" y2="12"/>
                 </svg>
-                Logout
+                {% trans "Logout" %}
             </button>
         </form>
     </div>
+    {% include "inline_language_switcher.html" %}
 </div>
 
 <div class="main-content">
     <div class="container">
         <div class="header">
-            <p class="header-text">Welcome to Plant Disease Detection! </p>
+            <p class="header-text">{% trans "Welcome to Plant Disease Detection!" %}</p>
         </div>
         
-        <p class="intro-text">Upload an image of a plant leaf and our AI will analyze it to detect potential diseases.</p>
+        <p class="intro-text">{% trans "Upload an image of a plant leaf and our AI will analyze it to detect potential diseases." %}</p>
         
         <div class="upload-form">
             <form id="upload-form" enctype="multipart/form-data">
                 {% csrf_token %}
                 <div class="form-group">
-                    <label for="image">Select leaf image:</label>
+                    <label for="image">{% trans "Select leaf image:" %}</label>
                     <div class="form-file-input" id="file-drop-area">
                         <div class="upload-icon">📷</div>
-                        <p>Drag & drop an image here or click to browse</p>
-                        <p style="font-size: 0.9rem; color: #6c757d;">Supported formats: JPG, PNG, JPEG</p>
+                        <p>{% trans "Drag & drop an image here or click to browse" %}</p>
+                        <p style="font-size: 0.9rem; color: #6c757d;">{% trans "Supported formats: JPG, PNG, JPEG" %}</p>
                         <input type="file" id="image" name="image" accept="image/*" required>
                     </div>
                 </div>
                 <div id="preview-container" class="preview-container" style="display: none;">
-                    <h3>Image Preview</h3>
-                    <img id="image-preview" class="preview" src="#" alt="Image Preview">
+                    <h3>{% trans "Image Preview" %}</h3>
+                    <img id="image-preview" class="preview" src="#" alt="{% trans "Image Preview" %}">
                 </div>
                 <div>
-                    <button type="submit" class="submit-btn">Analyze Image</button>
-                    <button type="button" id="show-treatment-btn" class="submit-btn" style="display: none;">Show Treatment</button>
+                    <button type="submit" class="submit-btn">{% trans "Analyze Image" %}</button>
+                    <button type="button" id="show-treatment-btn" class="submit-btn" style="display: none;">{% trans "Show Treatment" %}</button>
                 </div>
             </form>
             <div id="loading" class="loading">
-                <p>Analyzing image... Please wait</p>
+                <p>{% trans "Analyzing image... Please wait" %}</p>
                 <div class="spinner"></div>
             </div>
         </div>
         <div id="result" class="result">
-            <h2>Detection Results</h2>
+            <h2>{% trans "Detection Results" %}</h2>
             <div id="result-content" class="result-content">
-                <p><span class="prediction-label">Prediction: </span><span id="prediction" class="prediction-value"></span></p>
+                <p><span class="prediction-label">{% trans "Prediction:" %} </span><span id="prediction" class="prediction-value"></span></p>
+            </div>
+            <div class="report-buttons">
+                <button type="button" id="show-treatment-btn" class="submit-btn" style="display: none;">{% trans "Show Treatment" %}</button>
+                <a id="download-report-btn" href="#" class="submit-btn" style="display: none; text-decoration: none; text-align: center; margin-top: 10px;">
+                    {% trans "Download PDF Report" %}
+                </a>
             </div>
         </div>
         <div id="treatment-result" class="result" style="display: none;">
-            <h2>Treatment Recommendation</h2>
+            <h2>{% trans "Treatment Recommendation" %}</h2>
             <div id="treatment-content" class="result-content">
                 <p id="treatment-text"></p>
             </div>
         </div>
         <div id="requirements-result" class="result" style="display: none;">
-            <h2>Plant Growing Requirements</h2>
+            <h2>{% trans "Plant Growing Requirements" %}</h2>
             <div id="requirements-content" class="result-content">
-                <p><span class="prediction-label">Optimal Temperature: </span><span id="optimal-temp" class="prediction-value"></span></p>
-                <p><span class="prediction-label">Sunlight Requirements: </span><span id="sunlight-req" class="prediction-value"></span></p>
-                <p><span class="prediction-label">Watering Requirements: </span><span id="watering-req" class="prediction-value"></span></p>
+                <p><span class="prediction-label">{% trans "Optimal Temperature:" %} </span><span id="optimal-temp" class="prediction-value"></span></p>
+                <p><span class="prediction-label">{% trans "Sunlight Requirements:" %} </span><span id="sunlight-req" class="prediction-value"></span></p>
+                <p><span class="prediction-label">{% trans "Watering Requirements:" %} </span><span id="watering-req" class="prediction-value"></span></p>
+            </div>
+        </div>
+        <div class="weather-widget">
+            <div class="weather-card">
+                <div class="weather-header">
+                    <h3>{% trans "Weather in" %} {{ weather.city|default:"Kathmandu" }}</h3>
+                    <div class="nepal-time">{{ weather.nepal_time }} (Nepal Time)</div>
+                </div>
+                <div class="weather-content">
+                    <div class="weather-icon">
+                        {% if weather.icon %}
+                            <img src="https://openweathermap.org/img/wn/{{ weather.icon }}@2x.png" alt="{{ weather.description }}">
+                        {% else %}
+                            <div style="width:100px;height:100px;display:flex;align-items:center;justify-content:center;background:#f0f0f0;border-radius:50%;">?</div>
+                        {% endif %}
+                    </div>
+                    <div class="weather-details">
+                        <div class="weather-temp">{{ weather.temperature }}°C</div>
+                        <div class="weather-desc">{{ weather.description|title }}</div>
+                        <div class="weather-meta">
+                            <span>{% trans "Feels like:" %} {{ weather.feels_like }}°C</span>
+                            <span>{% trans "Humidity:" %} {{ weather.humidity }}%</span>
+                            <span>{% trans "Wind:" %} {{ weather.wind_speed }} m/s</span>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -488,10 +589,19 @@ document.getElementById('upload-form').addEventListener('submit', function(e) {
             alert('Error: ' + data.error);
             return;
         }
+        
         // Display result
         document.getElementById('prediction').textContent = data.prediction;
         document.getElementById('show-treatment-btn').style.display = 'block';
         document.getElementById('show-treatment-btn').dataset.prediction = data.prediction;
+        
+        // Show the report download button if detection_id is available
+        if (data.detection_id) {
+            const downloadBtn = document.getElementById('download-report-btn');
+            downloadBtn.href = `/detection/report/${data.detection_id}/`;
+            downloadBtn.style.display = 'block';
+        }
+        
         document.getElementById('result').style.display = 'block';
     })
     .catch(error => {
@@ -517,7 +627,7 @@ document.getElementById('show-treatment-btn').addEventListener('click', function
             // Show the treatment section
             document.getElementById('treatment-result').style.display = 'block';
         } else {
-            document.getElementById('treatment-text').textContent = 'No treatment found for this disease.';
+            document.getElementById('treatment-text').textContent = '{% trans "No treatment found for this disease." %}';
             document.getElementById('treatment-result').style.display = 'block';
         }
         // Now fetch plant requirements data
@@ -536,7 +646,7 @@ document.getElementById('show-treatment-btn').addEventListener('click', function
     .catch(error => {
         document.getElementById('loading').style.display = 'none';
         // Show error in the treatment section
-        document.getElementById('treatment-text').textContent = 'Error fetching data: ' + error.message;
+        document.getElementById('treatment-text').textContent = '{% trans "Error fetching data:" %} ' + error.message;
         document.getElementById('treatment-result').style.display = 'block';
     });
 });

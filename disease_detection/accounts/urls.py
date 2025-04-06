@@ -1,6 +1,6 @@
 from django.urls import path
 from django.contrib.auth import views as auth_views
-from .views import signup, profile, admin_dashboard, user_details, manage_users, user_detail
+from .views import signup, profile, admin_dashboard, user_details, manage_users, user_detail, switch_language
 from . import views
 
 urlpatterns = [
@@ -12,4 +12,5 @@ urlpatterns = [
     path('user-details/<int:user_id>/', views.user_details, name='user_details'),
     path('manage-users/', views.manage_users, name='manage_users'),
     path('user-detail/<int:user_id>/', views.user_detail, name='user_detail'),
+    path('switch-language/<str:language_code>/', views.switch_language, name='switch_language'),
 ]

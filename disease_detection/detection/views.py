@@ -1,5 +1,5 @@
-from django.shortcuts import render
-from django.http import JsonResponse
+from django.shortcuts import render, redirect, get_object_or_404
+from django.http import JsonResponse, HttpResponse
 import os
 import logging
 import numpy as np
@@ -12,6 +12,14 @@ from PIL import Image
 import pandas as pd
 from urllib.parse import unquote
 from .models import DetectionHistory
+from django.contrib.auth.decorators import login_required
+from django.contrib import messages
+import requests
+import json
+from django.conf import settings
+from datetime import datetime
+import pytz
+from .utils import render_to_pdf
 
 
 
@@ -137,10 +145,11 @@ def load_model_on_demand():
         logger.error(traceback.format_exc())
         return None
 
+@login_required
 def predict(request):
-    """Process the image and return prediction results"""
-    if request.method == "POST" and request.FILES.get("image"):
+    if request.method == 'POST':
         try:
+            image = request.FILES['image']
             # Load the model
             model = load_model_on_demand()
             if model is None:
@@ -148,7 +157,7 @@ def predict(request):
                 
             # Process the uploaded image using same method as Streamlit
             logger.info("Processing uploaded image file")
-            input_array, temp_path = preprocess_image(request.FILES["image"])
+            input_array, temp_path = preprocess_image(image)
             if input_array is None:
                 return JsonResponse({"error": "Image preprocessing failed"}, status=400)
             
@@ -199,19 +208,20 @@ def predict(request):
             # Clean memory
             gc.collect()
             
-            # After getting the prediction, save it to history
-            DetectionHistory.objects.create(
+            # Save to history
+            history_item = DetectionHistory.objects.create(
                 user=request.user,
-                image=request.FILES['image'],
+                image=image,
                 prediction=predicted_class_name
             )
             
-            # Return prediction results
+            # Return detection_id in the response
             return JsonResponse({
-                "prediction": predicted_class_name,
-                "confidence": predicted_confidence,
-                "treatment": treatment,
-                "top_predictions": top_predictions
+                'prediction': predicted_class_name,
+                'confidence': predicted_confidence,
+                'treatment': treatment,
+                'top_predictions': top_predictions,
+                'detection_id': history_item.id
             })
             
         except Exception as e:
@@ -266,8 +276,13 @@ def get_requirements(request, plant_name):
         logger.error(traceback.format_exc())
         return JsonResponse({'error': 'An error occurred while retrieving plant requirements'}, status=500)
 def home(request):
-    """Render the home page template"""
-    return render(request, 'home.html')
+    # Get weather data
+    weather = get_weather_data()
+    
+    # Add debug print
+    print(f"Weather data being sent to template: {weather}")
+    
+    return render(request, 'home.html', {'weather': weather})
 def history(request):
     history_items = DetectionHistory.objects.filter(user=request.user)
     return render(request, 'history.html', {'history_items': history_items})
@@ -317,3 +332,147 @@ def test_model(request):
             "message": f"Test failed: {str(e)}",
             "traceback": traceback.format_exc() if DEBUG else "Set DEBUG=True for details"
         })
+
+@login_required
+def delete_history(request, history_id):
+    history_item = get_object_or_404(DetectionHistory, id=history_id)
+    
+    # Security check - only allow users to delete their own history
+    if history_item.user != request.user and not request.user.userprofile.is_admin:
+        messages.error(request, "You don't have permission to delete this item.")
+        return redirect('history')
+    
+    # Delete the image file if it exists
+    if history_item.image:
+        if os.path.isfile(history_item.image.path):
+            os.remove(history_item.image.path)
+    
+    # Delete the item
+    history_item.delete()
+    
+    # Show a success message
+    messages.success(request, "History item deleted successfully!")
+    
+    # Check if there's a next parameter for redirect
+    next_url = request.GET.get('next')
+    if next_url:
+        return redirect(next_url)
+    
+    # Otherwise redirect back to history page
+    return redirect('history')
+
+def get_weather_data(city=None):
+    """
+    Get real-time weather data from OpenWeatherMap API with Nepal timestamp
+    """
+    if not city:
+        city = 'Kathmandu'  # Default to Nepal's capital
+        
+    # Get Nepal time regardless of API success
+    nepal_tz = pytz.timezone('Asia/Kathmandu')
+    nepal_time = datetime.now(nepal_tz)
+    nepal_time_str = nepal_time.strftime('%b %d, %Y %I:%M %p')
+    
+    # Hardcoded API key (for testing only - move to settings.py in production)
+    api_key = settings.WEATHER_API_KEY  # Example: "a1b2c3d4e5f6g7h8i9j0"
+    
+    try:
+        # Make the API request
+        url = f'https://api.openweathermap.org/data/2.5/weather?q={city}&appid={api_key}&units=metric'
+        response = requests.get(url, timeout=5)
+        
+        # For debugging
+        print(f"Weather API response: {response.status_code}")
+        
+        if response.status_code == 200:
+            data = response.json()
+            
+            # For debugging
+            print(f"Weather data received: {data}")
+            
+            weather = {
+                'city': data['name'],
+                'temperature': int(round(data['main']['temp'])),  # Convert to integer
+                'description': data['weather'][0]['description'],
+                'icon': data['weather'][0]['icon'],
+                'humidity': int(data['main']['humidity']),  # Convert to integer
+                'wind_speed': round(data['wind']['speed'], 1),  # Round to 1 decimal
+                'feels_like': int(round(data['main']['feels_like'])),  # Convert to integer
+                'nepal_time': nepal_time_str
+            }
+            return weather
+        else:
+            print(f"Weather API error: {response.status_code}, {response.text}")
+            return get_default_weather(nepal_time_str)
+            
+    except Exception as e:
+        print(f"Error fetching weather data: {e}")
+        return get_default_weather(nepal_time_str)
+
+def get_default_weather(nepal_time_str):
+    """Return default weather data with actual values if API fails"""
+    return {
+        'city': 'Kathmandu',
+        'temperature': 25,  # Numeric value, not string
+        'description': 'Weather information unavailable',
+        'icon': '01d',
+        'humidity': 60,  # Numeric value, not string
+        'wind_speed': 5.0,  # Numeric value, not string
+        'feels_like': 27,  # Numeric value, not string
+        'nepal_time': nepal_time_str
+    }
+
+@login_required
+def generate_report(request, detection_id):
+    # Get the detection record
+    detection = get_object_or_404(DetectionHistory, id=detection_id, user=request.user)
+    
+    # Get treatment data (similar to your existing code)
+    prediction = detection.prediction
+    plant_name = prediction.split('___')[0] if '___' in prediction else prediction
+    
+    # Get treatment data
+    treatment = "No treatment information available."
+    try:
+        # Use your existing treatment logic here
+        # Example: treatment = get_treatment_for_disease(prediction)
+        pass
+    except Exception as e:
+        print(f"Error getting treatment: {e}")
+    
+    # Get growing requirements data
+    requirements = {
+        'optimal_temperature': 'Not available',
+        'sunlight_requirements': 'Not available',
+        'watering_requirements': 'Not available'
+    }
+    
+    try:
+        # Use your existing growing requirements logic here
+        # Example: requirements = get_requirements_for_plant(plant_name)
+        pass
+    except Exception as e:
+        print(f"Error getting requirements: {e}")
+    
+    # Prepare context for PDF
+    context = {
+        'detection': detection,
+        'prediction': prediction,
+        'treatment': treatment,
+        'requirements': requirements,
+        'date': datetime.datetime.now().strftime("%Y-%m-%d"),
+        'user': request.user,
+        'plant_name': plant_name
+    }
+    
+    # Generate PDF
+    pdf = render_to_pdf('pdf_report.html', context)
+    
+    if pdf:
+        response = HttpResponse(pdf, content_type='application/pdf')
+        filename = f"Plant_Disease_Report_{detection.id}.pdf"
+        content = f"attachment; filename={filename}"
+        response['Content-Disposition'] = content
+        return response
+    
+    return HttpResponse("Error generating PDF", status=400)

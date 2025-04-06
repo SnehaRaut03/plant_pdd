@@ -4,6 +4,8 @@ from .forms import UserRegisterForm
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth.models import User
 from detection.models import DetectionHistory
+from django.utils import translation
+from django.conf import settings
 
 def signup(request):
     if request.method == 'POST':
@@ -22,9 +24,10 @@ def is_admin(user):
 
 @login_required
 def profile(request):
-    if request.user.userprofile.is_admin:
-        return redirect('admin_dashboard')
-    return render(request, 'user_profile.html')
+    detection_count = DetectionHistory.objects.filter(user=request.user).count()
+    return render(request, 'profile.html', {
+        'detection_count': detection_count
+    })
 
 @login_required
 @user_passes_test(is_admin)
@@ -73,7 +76,13 @@ def user_detail(request, user_id):
     
     return render(request, 'user_detail.html', {
         'viewed_user': viewed_user,
-        'history': history,
-        'detection_count': history.count(),
+        'history': history
     })
+
+def switch_language(request, language_code):
+    """Direct language switching view"""
+    response = redirect(request.GET.get('next', '/accounts/profile/'))
+    translation.activate(language_code)
+    response.set_cookie(settings.LANGUAGE_COOKIE_NAME, language_code)
+    return response
 

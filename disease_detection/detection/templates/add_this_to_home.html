@@ -1,0 +1,47 @@
+{% load i18n %}
+
+<!-- Language Switcher Component - Copy and paste this into your home.html at an appropriate location -->
+<div class="card mb-4">
+    <div class="card-header bg-primary text-white">
+        <h5 class="mb-0">{% trans "Choose Language" %}</h5>
+    </div>
+    <div class="card-body">
+        <div class="d-flex justify-content-center">
+            {% get_available_languages as LANGUAGES %}
+            {% for lang_code, lang_name in LANGUAGES %}
+                <form action="{% url 'set_language' %}" method="post" class="mx-2">
+                    {% csrf_token %}
+                    <input name="next" type="hidden" value="{{ request.path }}">
+                    <input name="language" type="hidden" value="{{ lang_code }}">
+                    <button type="submit" class="btn {% if lang_code == LANGUAGE_CODE %}btn-primary{% else %}btn-outline-primary{% endif %}">
+                        {{ lang_name }}
+                    </button>
+                </form>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+<!-- Mobile-Friendly Version (Alternative) -->
+<div class="d-flex justify-content-center my-3">
+    <div class="dropdown">
+        <button class="btn btn-primary dropdown-toggle" type="button" id="languageDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+            {% trans "Language" %} ({{ LANGUAGE_CODE }})
+        </button>
+        <ul class="dropdown-menu" aria-labelledby="languageDropdown">
+            {% get_available_languages as LANGUAGES %}
+            {% for lang_code, lang_name in LANGUAGES %}
+                <li>
+                    <form action="{% url 'set_language' %}" method="post" style="display: inline;">
+                        {% csrf_token %}
+                        <input name="next" type="hidden" value="{{ request.path }}">
+                        <input name="language" type="hidden" value="{{ lang_code }}">
+                        <button type="submit" class="dropdown-item">
+                            {{ lang_name }}
+                        </button>
+                    </form>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+</div> 

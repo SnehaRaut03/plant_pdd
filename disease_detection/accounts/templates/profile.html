@@ -1,7 +1,8 @@
+{% load i18n %}
 <!DOCTYPE html>
 <html>
 <head>
-    <title>User Profile</title>
+    <title>{% trans "User Profile" %}</title>
     <style>
         :root {
     --primary-color: #3a7e45;
@@ -232,51 +233,111 @@ body {
             margin-right: auto;
             font-weight: bold;
 }
+        /* Language switcher styles */
+        .language-switcher {
+            display: flex;
+            align-items: center;
+            margin: 15px auto;
+            justify-content: center;
+        }
+        .language-label {
+            margin-right: 10px;
+            color: white;
+        }
+        .language-button {
+            padding: 5px 10px;
+            border: 1px solid white;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 0 5px;
+            color: white;
+            text-decoration: none;
+            display: inline-block;
+        }
+        .language-active {
+            background-color: white;
+            color: var(--primary-color);
+        }
+        .language-inactive {
+            background-color: transparent;
+            color: white;
+        }
+        /* Header language switcher styles */
+        .header .language-button {
+            border: 1px solid var(--primary-color);
+            color: var(--primary-color);
+        }
+        .header .language-label {
+            color: var(--text-color);
+        }
+        .header .language-active {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        .header .language-inactive {
+            background-color: white;
+            color: var(--primary-color);
+        }
     </style>
 </head>
 <body>
     <!-- Sidebar -->
     <div class="sidebar">
         <div class="sidebar-logo">
-            <h2>Plant Health</h2>
+            <h2>{% trans "Plant Health" %}</h2>
         </div>
+        
+        {% include "inline_language_switcher.html" %}
+        
         <nav class="sidebar-nav">
             <a href="{% url 'home' %}">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
                     <polyline points="9 22 9 12 15 12 15 22"/>
                 </svg>
-                Home
+                {% trans "Home" %}
             </a>
-            <a href="{% url 'profile' %}">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-user">
+            
+            <a href="{% url 'profile' %}" style="background-color: var(--primary-hover);">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/>
                     <circle cx="12" cy="7" r="4"/>
                 </svg>
-                Profile
+                {% trans "Profile" %}
             </a>
-        
+            
             <a href="{% url 'history' %}">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-history">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/>
                     <path d="M3 3v5h5"/>
                     <path d="M12 7v5l4 2"/>
                 </svg>
-                History
+                {% trans "History" %}
             </a>
             
-        </a>
+            {% if user.userprofile.is_admin %}
+            <a href="{% url 'manage_users' %}">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/>
+                    <circle cx="9" cy="7" r="4"/>
+                    <path d="M22 21v-2a4 4 0 0 0-3-3.87"/>
+                    <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                </svg>
+                {% trans "Manage Users" %}
+            </a>
+            {% endif %}
         </nav>
+        
         <div class="sidebar-bottom">
             <form method="post" action="{% url 'logout' %}">
                 {% csrf_token %}
                 <button type="submit">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-log-out">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
                         <polyline points="16 17 21 12 16 7"/>
                         <line x1="21" x2="9" y1="12" y2="12"/>
                     </svg>
-                    Logout
+                    {% trans "Logout" %}
                 </button>
             </form>
         </div>
@@ -285,33 +346,42 @@ body {
     <div class="main-content">
         <div class="container">
             <div class="header">
-               <p class="header-user">Welcome, {{ user.username }}</p>
-                
+               <p class="header-user">{% trans "User Profile" %}</p>
             </div>
 
             <div class="profile-card">
                 <div class="profile-header">
                     <div class="profile-avatar">
-                        {{ user.username.0|upper }}
+                        {{ user.username|first|upper }}
                     </div>
                     <div class="profile-info">
-                        <h1>{{ user.username }}'s Profile</h1>
-                        <p>Member since: {{ user.date_joined|date:"F j, Y" }}</p>
+                        <h1>{{ user.username }}</h1>
+                        <p>{{ user.email }}</p>
                     </div>
                 </div>
 
                 <div class="profile-details">
                     <div class="detail-row">
-                        <div class="detail-label">Username</div>
+                        <div class="detail-label">{% trans "Username" %}</div>
                         <div class="detail-value">{{ user.username }}</div>
                     </div>
                     <div class="detail-row">
-                        <div class="detail-label">Email</div>
+                        <div class="detail-label">{% trans "Email" %}</div>
                         <div class="detail-value">{{ user.email }}</div>
                     </div>
                     <div class="detail-row">
-                        <div class="detail-label">Last Login</div>
-                        <div class="detail-value">{{ user.last_login|date:"F j, Y, g:i a" }}</div>
+                        <div class="detail-label">{% trans "Date Joined" %}</div>
+                        <div class="detail-value">{{ user.date_joined }}</div>
+                    </div>
+                    <div class="detail-row">
+                        <div class="detail-label">{% trans "Role" %}</div>
+                        <div class="detail-value">
+                            {% if user.userprofile.is_admin %}
+                                {% trans "Administrator" %}
+                            {% else %}
+                                {% trans "Regular User" %}
+                            {% endif %}
+                        </div>
                     </div>
                 </div>
             </div>
