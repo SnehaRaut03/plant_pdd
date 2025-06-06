@@ -1,4 +1,6 @@
 {% load i18n %}
+{% load static %}
+{% load tz %}
 <!DOCTYPE html>
 <html>
 <head>
@@ -159,22 +161,25 @@
 .main-content {
     flex-grow: 1;
     overflow-y: auto;
-    padding: 20px;
+    padding: 30px;
     max-width: calc(100% - 250px);
 }
 .container {
-    max-width: 900px;
+    max-width: 1000px;
     margin: 0 auto;
     width: 100%;
 }
 .header {
     display: flex;
-    justify-content: flex-end;
     align-items: center;
     width: 100%;
     margin-bottom: 30px;
     padding-bottom: 15px;
     border-bottom: 2px solid var(--primary-color);
+}
+.header-text {
+    margin-right: auto;
+    color: var(--primary-color);
 }
 .dropdown {
     position: relative;
@@ -224,19 +229,6 @@
     background-color: var(--primary-hover);
 }
 
-        .main-content {
-            flex-grow: 1;
-            overflow-y: auto;
-            padding: 30px;
-            max-width: calc(100% - 250px);
-        }
-
-        .container {
-            max-width: 1000px;
-            margin: 0 auto;
-            width: 100%;
-        }
-
         .delete-btn {
             position: absolute;
             top: 10px;
@@ -263,30 +255,39 @@
         .language-switcher {
             display: flex;
             align-items: center;
-            margin: 15px auto;
-            justify-content: center;
+            margin-left: auto;
+            background-color: white;
+            padding: 8px 15px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
         }
-        .language-label {
+
+        .language-switcher p {
             margin-right: 10px;
-            color: white;
+            font-weight: 500;
+            color: var(--text-color);
         }
+
         .language-button {
-            padding: 5px 10px;
-            border: 1px solid white;
-            border-radius: 4px;
+            padding: 8px 15px;
+            border-radius: var(--border-radius);
             cursor: pointer;
-            margin: 0 5px;
-            color: white;
-            text-decoration: none;
-            display: inline-block;
-        }
-        .language-active {
+            font-weight: 500;
+            transition: var(--transition);
+            margin-left: 5px;
+            border: 1px solid var(--primary-color);
             background-color: white;
             color: var(--primary-color);
+            text-decoration: none;
         }
-        .language-inactive {
-            background-color: transparent;
+
+        .language-active {
+            background-color: var(--primary-color);
             color: white;
+        }
+
+        .language-inactive:hover {
+            background-color: var(--primary-light);
         }
     </style>
 </head>
@@ -294,10 +295,8 @@
     <!-- Keep your existing sidebar HTML -->
     <div class="sidebar">
         <div class="sidebar-logo">
-            <h2>{% trans "Plant Health" %}</h2>
+            
         </div>
-        
-        {% include "inline_language_switcher.html" %}
         
         <nav class="sidebar-nav">
             <a href="{% url 'home' %}">
@@ -353,6 +352,30 @@
 
     <div class="main-content">
         <div class="container">
+            <div class="header">
+                <!-- <h1 class="header-text">{% trans "Detection History" %}</h1> -->
+                <div class="language-switcher">
+                    <p>{% trans "Language" %}:</p>
+                    <form action="{% url 'set_language' %}" method="post" style="display: inline;">
+                        {% csrf_token %}
+                        <input name="next" type="hidden" value="{{ request.path }}">
+                        <input name="language" type="hidden" value="en">
+                        <button type="submit" class="language-button {% if LANGUAGE_CODE == 'en' %}language-active{% else %}language-inactive{% endif %}">
+                            English
+                        </button>
+                    </form>
+                    
+                    <form action="{% url 'set_language' %}" method="post" style="display: inline;">
+                        {% csrf_token %}
+                        <input name="next" type="hidden" value="{{ request.path }}">
+                        <input name="language" type="hidden" value="ne">
+                        <button type="submit" class="language-button {% if LANGUAGE_CODE == 'ne' %}language-active{% else %}language-inactive{% endif %}">
+                            नेपाली
+                        </button>
+                    </form>
+                </div>
+            </div>
+            
             <div class="history-card">
                 <h1>{% trans "Detection History" %}</h1>
                 {% if history_items %}
@@ -361,7 +384,7 @@
                         <img src="{{ item.image.url }}" alt="{% trans "Leaf Image" %}" class="history-image">
                         <div class="history-details">
                             <div class="history-prediction">{% trans "Prediction:" %} {{ item.prediction }}</div>
-                            <div class="history-timestamp">{% trans "Detected on:" %} {{ item.created_at }}</div>
+                            <div class="history-timestamp">{% trans "Detected On:" %} {{ item.timestamp|localtime }}</div>
                             <a href="{% url 'report' item.id %}" class="btn btn-primary" style="text-decoration: none; padding: 8px 12px; background-color: #3a7e45; color: white; border-radius: 4px; display: inline-block; margin-top: 10px;">
                                 {% trans "Download Report" %}
                             </a>

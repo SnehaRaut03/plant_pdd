@@ -1,40 +1,40 @@
-﻿Disease,Plant Name,Optimal_temperature,Sunlight_requirement,Watering _requirement
-Apple___Apple_scab,Apple,0 to 35 ℃,Full,Medium
-Apple___Black_rot,Apple,0 to 35 ℃,Full,Medium
-Apple___Cedar_apple_rust,Apple,0 to 35 ℃,Full,Medium
-Apple___healthy,Apple,0 to 35 ℃,Full,Medium
-Blueberry___healthy,Blueberry,20-26 °C,Full,Medium
-Cherry_(including_sour)___healthy,Cherry,5 to 35 ℃,Full,Medium
-Cherry_(including_sour)___Powdery_mildew,Cherry,5 to 35 ℃,Full,Medium
-Corn_(maize)___Cercospora_leaf_spot_Gray_leaf_spot,Corn,30 to 35 ℃,Full,High
-Corn_(maize)___Common_rust,Corn,30 to 35 ℃,Full,High
-Corn_(maize)___healthy,Corn,30 to 35 ℃,Full,High
-Corn_(maize)___Northern_Leaf_Blight,Corn,30 to 35 ℃,Full,High
-Grape___Black_rot,Grape,25 to 32°C,Full,Medium
-Grape___Esca_(Black_Measles),Grape,25 to 32°C,Full,Medium
-Grape___healthy,Grape,25 to 32°C,Full,Medium
-Grape___Leaf_blight_(Isariopsis_Leaf_Spot),Grape,25 to 32°C,Full,Medium
-Orange___Haunglongbing_(Citrus_greening),Orange,15 to 32,Full,Medium
-Peach___Bacterial_spot,Peach,5 to 35 ℃,Full,Medium
-Peach___healthy,Peach,5 to 35 ℃,Full,Medium
-"Pepper,_bell___Bacterial_spot",Pepper (Bell),21-26°C,Full,Medium
-"Pepper,_bell___healthy",Pepper (Bell),21-26°C,Full,Medium
-Potato___Early_blight,Potato,5 to 20˚C,Full,High
-Potato___healthy,Potato,5 to 20˚C,Full,High
-Potato___Late_blight,Potato,5 to 20˚C,Full,High
-Raspberry___healthy,Raspberry,21 to 24°C,Full,Medium
-Soybean___healthy,Soybean, 22 to 35 °C,Full,Medium
-Squash___Powdery_mildew,Squash,20 to 35 ℃,Full,Medium
-Strawberry___Leaf_scorch,Strawberry,16 to 20°C,Full,Medium
-Strawberry___healthy,Strawberry,16 to 20°C,Full,Medium
-Tomato___Bacterial_spot,Tomato,21 to 27°C ,Full,High
-Tomato___Early_blight,Tomato,21 to 27°C ,Full,High
-Tomato___healthy,Tomato,21 to 27°C ,Full,High
-Tomato___Late_blight,Tomato,21 to 27°C ,Full,High
-Tomato___Leaf_Mold,Tomato,21 to 27°C ,Full,High
-Tomato___Septoria_leaf_spot,Tomato,21 to 27°C ,Full,High
-Tomato___Spider_mites_Two-spotted_spider_mite,Tomato,21 to 27°C ,Full,High
-Tomato___Target_Spot,Tomato,21 to 27°C ,Full,High
-Tomato___Tomato_mosaic_virus,Tomato,21 to 27°C ,Full,High
-Tomato___Tomato_Yellow_Leaf_Curl_Virus,Tomato,21 to 27°C ,Full,High
-not_a_leaf,Not a Leaf,0,None,None
+Disease,Plant Name,Optimal_temperature,Sunlight_requirement,Watering _requirement,Humidity,Soil
+Apple___Apple_scab,Apple,0 to 35 ℃,Full,Medium,40% to 60%,5.8 to 7.0
+Apple___Black_rot,Apple,0 to 35 ℃,Full,Medium,40% to 60%,5.8 to 7.0
+Apple___Cedar_apple_rust,Apple,0 to 35 ℃,Full,Medium,40% to 60%,5.8 to 7.0
+Apple___healthy,Apple,0 to 35 ℃,Full,Medium,40% to 60%,5.8 to 7.0
+Blueberry___healthy,Blueberry,20-26 °C,Full,Medium,40% to 60%,4.0 to 5.5
+Cherry_(including_sour)___healthy,Cherry,5 to 35 ℃,Full,Medium,40% to 60%,5.5 to 8.0
+Cherry_(including_sour)___Powdery_mildew,Cherry,5 to 35 ℃,Full,Medium,40% to 60%,5.5 to 8.0
+Corn_(maize)___Cercospora_leaf_spot Gray_leaf_spot,Corn_(maize),30 to 35 ℃,Full,High,50% to 80%,6.0 to 6.5
+Corn_(maize)___Common_rust_,Corn_(maize),30 to 35 ℃,Full,High,50% to 80%,6.0 to 6.5
+Corn_(maize)___healthy,Corn_(maize),30 to 35 ℃,Full,High,50% to 80%,6.0 to 6.5
+Corn_(maize)___Northern_Leaf_Blight,Corn,30 to 35 ℃,Full,High,50% to 80%,6.0 to 6.5
+Grape___Black_rot,Grape,25 to 32°C,Full,Medium,40% to 70%,5.5 to 8.5
+Grape___Esca_(Black_Measles),Grape,25 to 32°C,Full,Medium,40% to 70%,5.5 to 8.5
+Grape___healthy,Grape,25 to 32°C,Full,Medium,40% to 70%,5.5 to 8.5
+Grape___Leaf_blight_(Isariopsis_Leaf_Spot),Grape,25 to 32°C,Full,Medium,40% to 70%,5.5 to 8.5
+Orange___Haunglongbing_(Citrus_greening),Orange,15 to 32,Full,Medium,60% to 80%,6.0 to 7.0
+Peach___Bacterial_spot,Peach,5 to 35 ℃,Full,Medium,50% to 70%,6.0 to 7.0
+Peach___healthy,Peach,5 to 35 ℃,Full,Medium,50% to 70%,6.0 to 7.0
+"Pepper,_bell___Bacterial_spot",Pepper (Bell),21-26°C,Full,Medium,40% to 70%,6.0 to 6.8
+"Pepper,_bell___healthy",Pepper (Bell),21-26°C,Full,Medium,40% to 70%,6.0 to 6.8
+Potato___Early_blight,Potato,5 to 20˚C,Full,High,60% to 80%,5.5 to 7.0
+Potato___healthy,Potato,5 to 20˚C,Full,High,60% to 80%,5.5 to 7.0
+Potato___Late_blight,Potato,5 to 20˚C,Full,High,60% to 80%,5.5 to 7.0
+Raspberry___healthy,Raspberry,21 to 24°C,Full,Medium,60% to 70%,5.5 to 6.5
+Soybean___healthy,Soybean,22 to 35 °C,Full,Medium,60% to 75%,6.3 to 6.5
+Squash___Powdery_mildew,Squash,20 to 35 ℃,Full,Medium,60% to 70%,5.5 to 6.8
+Strawberry___Leaf_scorch,Strawberry,16 to 20°C,Full,Medium,65% to 75%,5.5 to 6.5
+Strawberry___healthy,Strawberry,16 to 20°C,Full,Medium,65% to 75%,5.5 to 6.5
+Tomato___Bacterial_spot,Tomato,21 to 27°C,Full,High,65% to 85%,6.2 to 6.8
+Tomato___Early_blight,Tomato,21 to 27°C,Full,High,65% to 85%,6.2 to 6.8
+Tomato___healthy,Tomato,21 to 27°C,Full,High,65% to 85%,6.2 to 6.8
+Tomato___Late_blight,Tomato,21 to 27°C,Full,High,65% to 85%,6.2 to 6.8
+Tomato___Leaf_Mold,Tomato,21 to 27°C,Full,High,65% to 85%,6.2 to 6.8
+Tomato___Septoria_leaf_spot,Tomato,21 to 27°C,Full,High,65% to 85%,6.2 to 6.8
+Tomato___Spider_mites_Two-spotted_spider_mite,Tomato,21 to 27°C,Full,High,65% to 85%,6.2 to 6.8
+Tomato___Target_Spot,Tomato,21 to 27°C,Full,High,65% to 85%,6.2 to 6.8
+Tomato___Tomato_mosaic_virus,Tomato,21 to 27°C,Full,High,65% to 85%,6.2 to 6.8
+Tomato___Tomato_Yellow_Leaf_Curl_Virus,Tomato,21 to 27°C,Full,High,65% to 85%,6.2 to 6.8
+not_a_leaf,Not a Leaf,0,None,None,None,None

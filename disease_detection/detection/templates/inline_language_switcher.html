@@ -1,29 +1,25 @@
 {% load i18n %}
 
 <!-- Simple inline language switcher that can be added to sidebar or top navbar -->
-<div class="language-switcher">
+<!-- <div class="language-switcher">
     <span class="language-label">{% trans "Language" %}:</span>
     {% get_current_language as CURRENT_LANGUAGE_CODE %}
     
-    <a href="/i18n/setlang/?next={{ request.path }}&language=en" 
-       class="language-button {% if CURRENT_LANGUAGE_CODE == 'en' %}language-active{% else %}language-inactive{% endif %}"
-       onclick="document.getElementById('sidebar-lang-form-en').submit(); return false;">
-        English
-    </a>
-    <form id="sidebar-lang-form-en" action="{% url 'set_language' %}" method="post" style="display:none;">
+    <form action="{% url 'set_language' %}" method="post" style="display: inline;">
         {% csrf_token %}
         <input name="next" type="hidden" value="{{ request.path }}">
         <input name="language" type="hidden" value="en">
+        <button type="submit" class="language-button {% if CURRENT_LANGUAGE_CODE == 'en' %}language-active{% else %}language-inactive{% endif %}" style="border: none; background: none; cursor: pointer;">
+            English
+        </button>
     </form>
     
-    <a href="/i18n/setlang/?next={{ request.path }}&language=ne"
-       class="language-button {% if CURRENT_LANGUAGE_CODE == 'ne' %}language-active{% else %}language-inactive{% endif %}"
-       onclick="document.getElementById('sidebar-lang-form-ne').submit(); return false;">
-        नेपाली
-    </a>
-    <form id="sidebar-lang-form-ne" action="{% url 'set_language' %}" method="post" style="display:none;">
+    <form action="{% url 'set_language' %}" method="post" style="display: inline;">
         {% csrf_token %}
         <input name="next" type="hidden" value="{{ request.path }}">
         <input name="language" type="hidden" value="ne">
+        <button type="submit" class="language-button {% if CURRENT_LANGUAGE_CODE == 'ne' %}language-active{% else %}language-inactive{% endif %}" style="border: none; background: none; cursor: pointer;">
+            नेपाली
+        </button>
     </form>
-</div> 
+</div>  -->

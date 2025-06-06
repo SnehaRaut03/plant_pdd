@@ -81,7 +81,11 @@ def user_detail(request, user_id):
 
 def switch_language(request, language_code):
     """Direct language switching view"""
-    response = redirect(request.GET.get('next', '/accounts/profile/'))
+    next_url = request.GET.get('next', '/')
+    if next_url.startswith('/'):
+        response = redirect(next_url)
+    else:
+        response = redirect('/')
     translation.activate(language_code)
     response.set_cookie(settings.LANGUAGE_COOKIE_NAME, language_code)
     return response

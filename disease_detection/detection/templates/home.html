@@ -1,16 +1,21 @@
 {% load i18n %}
+{% load static %}
 <html>
 <head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>{% trans "Plant Disease Detection" %}</title>
+<head>{% trans "Sneha"  %}</head>
 <style>
+ 
 :root {
-    --primary-color: #3a7e45;
-    --primary-hover: #2c6135;
+    --primary-color: #2c6d37;
+    --primary-hover: #1e4b25;
     --secondary-color: #f8f9fa;
     --accent-color: #e9ecef;
     --text-color: #343a40;
-    --border-radius: 8px;
-    --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    --border-radius: 6px;
+    --box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 }
 * {
     box-sizing: border-box;
@@ -19,7 +24,7 @@
 }
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: #f5f7f5;
+    background-color: #f7f9f8;
     color: var(--text-color);
     line-height: 1.6;
     display: flex;
@@ -41,6 +46,10 @@ body {
     color: white;
     font-size: 1.5rem;
 }
+.sidebar-logo img {
+    max-width: 180px;
+    height: auto;
+}
 .sidebar-nav {
     flex-grow: 1;
 }
@@ -49,10 +58,11 @@ body {
     align-items: center;
     color: white;
     text-decoration: none;
-    padding: 12px 15px;
-    margin-bottom: 10px;
+    padding: 14px 18px;
+    margin-bottom: 12px;
     border-radius: var(--border-radius);
-    transition: background-color 0.3s;
+    transition: all 0.3s ease;
+    font-weight: 500;
 }
 .sidebar-nav a:hover {
     background-color: var(--primary-hover);
@@ -86,21 +96,14 @@ body {
     overflow-y: auto;
     padding: 20px;
     max-width: calc(100% - 250px);
+    box-sizing: border-box;
 }
 .container {
     max-width: 900px;
     margin: 0 auto;
     width: 100%;
 }
-.header {
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-    width: 100%;
-    margin-bottom: 30px;
-    padding-bottom: 15px;
-    border-bottom: 2px solid var(--primary-color);
-}
+
 .dropdown {
     position: relative;
     display: inline-block;
@@ -161,33 +164,36 @@ body {
 }
 .intro-text {
     text-align: center;
-    margin-bottom: 25px;
+    margin-bottom: 35px;
     font-size: 1.1rem;
-    max-width: 600px;
+    max-width: 650px;
     color: #495057;
     margin-left: auto;
     margin-right: auto;
+    padding: 25px 50px;
+    line-height: 1.7;
 }
 .header-text {
-    text-align: center;
-    margin-bottom: 10px;
-    font-size: 2rem;
-    max-width: 600px;
-    color: black;
-    margin-left: auto;
-    margin-right: auto;
-   
+    font-size: 1.8rem;
+    font-weight: 600;
+    color: #1a1a1a;
+    flex-grow: 1;
+    margin-right: 150px;
+    white-space: nowrap;
 }
 .upload-form {
-    margin: 20px 0;
-    padding: 30px;
+    margin: 25px 0;
+    padding: 35px;
     border-radius: var(--border-radius);
     width: 100%;
+    max-width: 100%;
     box-shadow: var(--box-shadow);
     background-color: white;
+    border: 1px solid rgba(0, 0, 0, 0.05);
 }
 .form-group {
     margin-bottom: 20px;
+    width: 100%;
 }
 .form-group label {
     display: block;
@@ -200,12 +206,13 @@ body {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    border: 2px dashed #ced4da;
+    border: 2px dashed #c8d0d9;
     border-radius: var(--border-radius);
-    padding: 40px 20px;
+    padding: 50px 20px;
     text-align: center;
     cursor: pointer;
     position: relative;
+    transition: all 0.3s ease;
 }
 .form-file-input:hover {
     border-color: var(--primary-color);
@@ -230,17 +237,29 @@ body {
     background-color: var(--primary-color);
     color: white;
     border: none;
-    padding: 12px 25px;
-    font-size: 16px;
+    padding: 16px 30px;
+    font-size: 18px;
     border-radius: var(--border-radius);
     cursor: pointer;
-    transition: background-color 0.3s;
-    width: 100%;
+    transition: all 0.3s ease;
+    max-width: 300px;
+    display: block;
+    margin: 20px auto;
     font-weight: 600;
-    margin-top: 20px;
+    letter-spacing: 0.5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 .submit-btn:hover {
     background-color: var(--primary-hover);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+.submit-btn:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+.upload-form > div:last-of-type {
+    text-align: center;
 }
 .preview-container {
     margin-top: 25px;
@@ -280,13 +299,14 @@ body {
     100% { transform: rotate(360deg); }
 }
 .result {
-    margin-top: 30px;
-    padding: 25px;
+    margin-top: 35px;
+    padding: 30px;
     border-radius: var(--border-radius);
     width: 100%;
     display: none;
     box-shadow: var(--box-shadow);
     background-color: white;
+    border: 1px solid rgba(0, 0, 0, 0.05);
 }
 .result h2 {
     color: var(--primary-color);
@@ -314,7 +334,8 @@ body {
     box-shadow: var(--box-shadow);
     overflow: hidden;
     max-width: 400px;
-    margin: 0 auto;
+    margin: 35px auto;
+    border: 1px solid rgba(0, 0, 0, 0.05);
 }
 .weather-header {
     background-color: var(--primary-color);
@@ -364,292 +385,797 @@ body {
     flex-direction: column;
     margin-top: 15px;
 }
+#yield-prediction-result {
+    width: 100%;
+    max-width: 900px;
+    margin: 35px auto;
+    padding: 30px;
+    box-sizing: border-box;
+    max-height: 800px;
+    overflow-y: auto;
+}
+
+.header {
+    padding: 15px 25px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    margin-bottom: 35px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    min-height: 70px;
+}
+
+.language-switcher {
+    display: flex;
+    align-items: center;
+    background-color: white;
+    padding: 8px 15px;
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    z-index: 200;
+}
+
+.language-switcher p {
+    margin-right: 10px;
+    font-weight: 500;
+    color: var(--text-color);
+}
+
+.language-button {
+    padding: 8px 15px;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    font-weight: 500;
+    margin-left: 5px;
+    border: 1px solid var(--primary-color);
+    background-color: white;
+    color: var(--primary-color);
+    text-decoration: none;
+}
+
+.language-active {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+.language-inactive:hover {
+    background-color: var(--primary-light);
+}
+
+/* Improved responsive yield prediction section */
+/* #yield-prediction-result {
+    width: 100%;
+    max-width: 900px;
+    margin: 35px auto;
+    padding: 30px;
+    box-sizing: border-box;
+} */
+
+/* Make the yield results section responsive */
+@media (max-width: 768px) {
+    #yield-results .conditions-container {
+        flex-direction: column;
+    }
+    
+    #yield-results .condition-column {
+        margin-bottom: 20px;
+    }
+}
+
+/* Add some spacing between sections */
+.section-spacer {
+    margin: 40px 0;
+}
+
+/* Improved form input styling */
+.form-control {
+    width: 100%;
+    padding: 12px;
+    border-radius: var(--border-radius);
+    border: 1px solid #ced4da;
+    margin-bottom: 15px;
+    font-size: 1rem;
+    transition: border-color 0.2s;
+}
+
+.form-control:focus {
+    border-color: var(--primary-color);
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(44, 109, 55, 0.1);
+}
+
+/* Responsive Design Improvements */
+@media screen and (max-width: 1024px) {
+    .main-content {
+        max-width: 100%;
+        padding: 15px;
+    }
+    
+    .container {
+        max-width: 100%;
+        padding: 0 15px;
+    }
+    
+    .upload-form {
+        padding: 25px;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    body {
+        flex-direction: column;
+        height: auto;
+    }
+    
+    .sidebar {
+        width: 100%;
+        position: relative;
+        padding: 15px;
+    }
+    
+    .sidebar-logo {
+        margin-bottom: 20px;
+    }
+    
+    .sidebar-logo img {
+        max-width: 150px;
+    }
+    
+    .main-content {
+        max-width: 100%;
+        padding: 15px;
+    }
+    
+    .header-text {
+        font-size: 1.5rem;
+        margin-right: 0;
+        text-align: center;
+    }
+    
+    .intro-text {
+        padding: 15px;
+        font-size: 1rem;
+    }
+    
+    .upload-form {
+        padding: 20px;
+    }
+    
+    .form-file-input {
+        padding: 30px 15px;
+    }
+    
+    .preview-container {
+        flex-direction: column;
+    }
+    
+    .preview-container img {
+        max-width: 100%;
+        height: auto;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .sidebar-nav a {
+        padding: 12px 15px;
+        font-size: 0.9rem;
+    }
+    
+    .header-text {
+        font-size: 1.3rem;
+    }
+    
+    .intro-text {
+        font-size: 0.9rem;
+        padding: 10px;
+    }
+    
+    .upload-form {
+        padding: 15px;
+    }
+    
+    .form-group label {
+        font-size: 0.9rem;
+    }
+    
+    .submit-btn {
+        max-width: 100%;
+        padding: 14px 20px;
+        font-size: 16px;
+        margin: 20px auto;
+    }
+    
+    .dropdown-content {
+        min-width: 140px;
+    }
+}
+
+/* Fix for mobile menu */
+@media screen and (max-width: 768px) {
+    .sidebar {
+        display: none;
+    }
+    
+    .sidebar.active {
+        display: flex;
+    }
+}
+
+/* Improve form responsiveness */
+.form-file-input {
+    min-height: 200px;
+}
+
+@media screen and (max-width: 480px) {
+    .form-file-input {
+        min-height: 150px;
+    }
+}
+
+/* Improve image preview responsiveness */
+.preview-container img {
+    max-width: 100%;
+    height: auto;
+    object-fit: contain;
+}
+
+/* Improve dropdown menu responsiveness */
+.dropdown-content {
+    position: fixed;
+    top: 60px;
+    right: 15px;
+    width: 200px;
+    max-width: calc(100% - 30px);
+}
+
+@media screen and (max-width: 480px) {
+    .dropdown-content {
+        width: 180px;
+    }
+}
 </style>
 </head>
 <body>
-<div class="sidebar">
-    <div class="sidebar-logo">
-        <h2>{% trans "Plant Health" %}</h2>
-    </div>
-    <nav class="sidebar-nav">
-        <a href="{% url 'home' %}">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
-                <polyline points="9 22 9 12 15 12 15 22"/>
-            </svg>
-            {% trans "Home" %}
-        </a>
-    
-        <a href="{% url 'profile' %}">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-user">
-                <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/>
-                <circle cx="12" cy="7" r="4"/>
-            </svg>
-            {% trans "Profile" %}
-        </a>
-    
-        <a href="{% url 'history' %}">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-history">
-                <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/>
-                <path d="M3 3v5h5"/>
-                <path d="M12 7v5l4 2"/>
-            </svg>
-            {% trans "History" %}
-        </a>
-        {% if user.userprofile.is_admin %}
-        <a href="{% url 'manage_users' %}">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/>
-                <circle cx="9" cy="7" r="4"/>
-                <path d="M22 21v-2a4 4 0 0 0-3-3.87"/>
-                <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
-            </svg>
-            {% trans "Manage Users" %}
-        </a>
-        {% endif %}
-    </nav>
-    <div class="sidebar-bottom">
-        <form method="post" action="{% url 'logout' %}">
-            {% csrf_token %}
-            <button type="submit">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-log-out">
-                    <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
-                    <polyline points="16 17 21 12 16 7"/>
-                    <line x1="21" x2="9" y1="12" y2="12"/>
+    <div class="sidebar">
+        <div class="sidebar-logo">
+            <img src="{% static 'logo.jpg' %}" alt="Plant Health" style="width: 120px; height: 120px; border-radius: 50%;">
+        </div>
+        <nav class="sidebar-nav">
+            <a href="{% url 'home' %}">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+                    <polyline points="9 22 9 12 15 12 15 22"/>
                 </svg>
-                {% trans "Logout" %}
-            </button>
-        </form>
-    </div>
-    {% include "inline_language_switcher.html" %}
-</div>
-
-<div class="main-content">
-    <div class="container">
-        <div class="header">
-            <p class="header-text">{% trans "Welcome to Plant Disease Detection!" %}</p>
-        </div>
+                {% trans "Home" %}
+            </a>
         
-        <p class="intro-text">{% trans "Upload an image of a plant leaf and our AI will analyze it to detect potential diseases." %}</p>
+            <a href="{% url 'profile' %}">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-user">
+                    <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/>
+                    <circle cx="12" cy="7" r="4"/>
+                </svg>
+                {% trans "Profile" %}
+            </a>
         
-        <div class="upload-form">
-            <form id="upload-form" enctype="multipart/form-data">
+            <a href="{% url 'history' %}">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-history">
+                    <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/>
+                    <path d="M3 3v5h5"/>
+                    <path d="M12 7v5l4 2"/>
+                </svg>
+                {% trans "History" %}
+            </a>
+            {% if user.userprofile.is_admin %}
+            <a href="{% url 'manage_users' %}">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/>
+                    <circle cx="9" cy="7" r="4"/>
+                    <path d="M22 21v-2a4 4 0 0 0-3-3.87"/>
+                    <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                </svg>
+                {% trans "Manage Users" %}
+            </a>
+            {% endif %}
+        </nav>
+        <div class="sidebar-bottom">
+            <form method="post" action="{% url 'logout' %}">
                 {% csrf_token %}
-                <div class="form-group">
-                    <label for="image">{% trans "Select leaf image:" %}</label>
-                    <div class="form-file-input" id="file-drop-area">
-                        <div class="upload-icon">📷</div>
-                        <p>{% trans "Drag & drop an image here or click to browse" %}</p>
-                        <p style="font-size: 0.9rem; color: #6c757d;">{% trans "Supported formats: JPG, PNG, JPEG" %}</p>
-                        <input type="file" id="image" name="image" accept="image/*" required>
-                    </div>
-                </div>
-                <div id="preview-container" class="preview-container" style="display: none;">
-                    <h3>{% trans "Image Preview" %}</h3>
-                    <img id="image-preview" class="preview" src="#" alt="{% trans "Image Preview" %}">
-                </div>
-                <div>
-                    <button type="submit" class="submit-btn">{% trans "Analyze Image" %}</button>
-                    <button type="button" id="show-treatment-btn" class="submit-btn" style="display: none;">{% trans "Show Treatment" %}</button>
-                </div>
+                <button type="submit">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-log-out">
+                        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+                        <polyline points="16 17 21 12 16 7"/>
+                        <line x1="21" x2="9" y1="12" y2="12"/>
+                    </svg>
+                    {% trans "Logout" %}
+                </button>
             </form>
-            <div id="loading" class="loading">
-                <p>{% trans "Analyzing image... Please wait" %}</p>
-                <div class="spinner"></div>
-            </div>
         </div>
-        <div id="result" class="result">
-            <h2>{% trans "Detection Results" %}</h2>
-            <div id="result-content" class="result-content">
-                <p><span class="prediction-label">{% trans "Prediction:" %} </span><span id="prediction" class="prediction-value"></span></p>
+        
+    </div>
+
+    <div class="main-content">
+        <div class="container">
+        
+            <div class="header">
+                <p class="header-text">{% trans "Plant Disease Detection" %}</p>
+                <div class="language-switcher">
+                    <p>{% trans "Language" %}:</p>
+                    <form action="{% url 'set_language' %}" method="post" style="display: inline;">
+                        {% csrf_token %}
+                        <input name="next" type="hidden" value="{{ request.path }}">
+                        <input name="language" type="hidden" value="en">
+                        <button type="submit" class="language-button {% if LANGUAGE_CODE == 'en' %}language-active{% else %}language-inactive{% endif %}">
+                            English
+                        </button>
+                    </form>
+                    
+                    <form action="{% url 'set_language' %}" method="post" style="display: inline;">
+                        {% csrf_token %}
+                        <input name="next" type="hidden" value="{{ request.path }}">
+                        <input name="language" type="hidden" value="ne">
+                        <button type="submit" class="language-button {% if LANGUAGE_CODE == 'ne' %}language-active{% else %}language-inactive{% endif %}">
+                            नेपाली
+                        </button>
+                    </form>
+                </div>
+            </div>
+            </div>
+            
+            <p class="intro-text"><p>{% trans "Our AI-powered system analyzes plant leaf images to detect diseases and provide treatment recommendations. Upload a clear image of a plant leaf to get instant results. This system is trained to recognize diseases in specific plants such as apple, tomato, grape, potato, and more, offering accurate diagnosis and tailored treatment advice." %}</p>
+        
+            
+            <div class="upload-form">
+                <form id="upload-form" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label for="image">{% trans "Select leaf image:" %}</label>
+                        <div class="form-file-input" id="file-drop-area">
+                            <div class="upload-icon">📷</div>
+                            <p>{% trans "Drag & drop an image here or click to browse" %}</p>
+                            <p style="font-size: 0.9rem; color: #6c757d;">{% trans "Supported formats: JPG, PNG, JPEG" %}</p>
+                            <input type="file" id="image" name="image" accept="image/*" required>
+                        </div>
+                    </div>
+                    <div id="preview-container" class="preview-container" style="display: none;">
+                        <h3>{% trans "Image Preview" %}</h3>
+                        <img id="image-preview" class="preview" src="#" alt="{% trans "Image Preview" %}">
+                    </div>
+                    <div>
+                        <button type="submit" class="submit-btn">{% trans "Analyze Image" %}</button>
+                        <button type="button" id="show-treatment-btn" class="submit-btn" style="display: none;">{% trans "Show Treatment" %}</button>
+                    </div>
+                </form>
+                <div id="loading" class="loading">
+                    <p>{% trans "Analyzing image... Please wait" %}</p>
+                    <div class="spinner"></div>
+                </div>
+            </div>
+            <div id="result" class="result">
+                <h2>{% trans "Detection Results" %}</h2>
+                <div id="result-content" class="result-content">
+                    <p><span class="prediction-label">{% trans "Prediction:" %} </span><span id="prediction" class="prediction-value"></span></p>
+                </div>
+            </div>
+            <div id="treatment-result" class="result" style="display: none;">
+                <h2>{% trans "Treatment Recommendation" %}</h2>
+                <div id="treatment-content" class="result-content">
+                    <p id="treatment-text"></p>
+                </div>
+            </div>
+            <div id="requirements-result" class="result" style="display: none;">
+                <h2>{% trans "Plant Growing Requirements" %}</h2>
+                <div id="requirements-content" class="result-content">
+                    <p><span class="prediction-label">{% trans "Optimal Temperature:" %} </span><span id="optimal-temp" class="prediction-value"></span></p>
+                    <p><span class="prediction-label">{% trans "Sunlight Requirements:" %} </span><span id="sunlight-req" class="prediction-value"></span></p>
+                    <p><span class="prediction-label">{% trans "Watering Requirements:" %} </span><span id="watering-req" class="prediction-value"></span></p>
+                    <p><span class="prediction-label">{% trans "Humidity:" %}</span><span id="humidity" class="prediction-value"></span></p>
+                    
+                </div>
             </div>
             <div class="report-buttons">
                 <button type="button" id="show-treatment-btn" class="submit-btn" style="display: none;">{% trans "Show Treatment" %}</button>
                 <a id="download-report-btn" href="#" class="submit-btn" style="display: none; text-decoration: none; text-align: center; margin-top: 10px;">
                     {% trans "Download PDF Report" %}
                 </a>
+                <div></div>
             </div>
-        </div>
-        <div id="treatment-result" class="result" style="display: none;">
-            <h2>{% trans "Treatment Recommendation" %}</h2>
-            <div id="treatment-content" class="result-content">
-                <p id="treatment-text"></p>
-            </div>
-        </div>
-        <div id="requirements-result" class="result" style="display: none;">
-            <h2>{% trans "Plant Growing Requirements" %}</h2>
-            <div id="requirements-content" class="result-content">
-                <p><span class="prediction-label">{% trans "Optimal Temperature:" %} </span><span id="optimal-temp" class="prediction-value"></span></p>
-                <p><span class="prediction-label">{% trans "Sunlight Requirements:" %} </span><span id="sunlight-req" class="prediction-value"></span></p>
-                <p><span class="prediction-label">{% trans "Watering Requirements:" %} </span><span id="watering-req" class="prediction-value"></span></p>
-            </div>
-        </div>
-        <div class="weather-widget">
-            <div class="weather-card">
-                <div class="weather-header">
-                    <h3>{% trans "Weather in" %} {{ weather.city|default:"Kathmandu" }}</h3>
-                    <div class="nepal-time">{{ weather.nepal_time }} (Nepal Time)</div>
-                </div>
-                <div class="weather-content">
-                    <div class="weather-icon">
-                        {% if weather.icon %}
-                            <img src="https://openweathermap.org/img/wn/{{ weather.icon }}@2x.png" alt="{{ weather.description }}">
-                        {% else %}
-                            <div style="width:100px;height:100px;display:flex;align-items:center;justify-content:center;background:#f0f0f0;border-radius:50%;">?</div>
-                        {% endif %}
+            <div class="weather-widget">
+                <div class="weather-card">
+                    <div class="weather-header">
+                        <h3>{% trans "Weather in" %} {{ weather.city|default:"Kathmandu" }}</h3>
+                        <div class="nepal-time">{{ weather.nepal_time }} (Nepal Time)</div>
                     </div>
-                    <div class="weather-details">
-                        <div class="weather-temp">{{ weather.temperature }}°C</div>
-                        <div class="weather-desc">{{ weather.description|title }}</div>
-                        <div class="weather-meta">
-                            <span>{% trans "Feels like:" %} {{ weather.feels_like }}°C</span>
-                            <span>{% trans "Humidity:" %} {{ weather.humidity }}%</span>
-                            <span>{% trans "Wind:" %} {{ weather.wind_speed }} m/s</span>
+                    <div class="weather-content">
+                        <div class="weather-icon">
+                            {% if weather.icon %}
+                                <img src="https://openweathermap.org/img/wn/{{ weather.icon }}@2x.png" alt="{{ weather.description }}">
+                            {% else %}
+                                <div style="width:100px;height:100px;display:flex;align-items:center;justify-content:center;background:#f0f0f0;border-radius:50%;">?</div>
+                            {% endif %}
+                        </div>
+                        <div class="weather-details">
+                            <div class="weather-temp">{{ weather.temperature }}°C</div>
+                            <div class="weather-desc">{{ weather.description|title }}</div>
+                            <div class="weather-meta">
+                                <span>{% trans "Feels like:" %} {{ weather.feels_like }}°C</span>
+                                <span>{% trans "Humidity:" %} {{ weather.humidity }}%</span>
+                                <span>{% trans "Wind:" %} {{ weather.wind_speed }} m/s</span>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
 
-<script>
-// Make the entire drop area clickable
-document.getElementById('file-drop-area').addEventListener('click', function(e) {
-    // Only trigger if the actual input wasn't clicked directly
-    if (e.target !== document.getElementById('image')) {
-        document.getElementById('image').click();
+    <script>
+    function toggleSidebar() {
+        const sidebar = document.querySelector('.sidebar');
+        sidebar.classList.toggle('active');
     }
-});
-// Image preview functionality
-document.getElementById('image').addEventListener('change', function(e) {
-    const file = e.target.files[0];
-    if (file) {
-        const reader = new FileReader();
-        reader.onload = function(e) {
-            document.getElementById('image-preview').src = e.target.result;
-            document.getElementById('preview-container').style.display = 'flex';
-        }
-        reader.readAsDataURL(file);
-    }
-});
-// Drag and drop functionality
-const dropArea = document.getElementById('file-drop-area');
-['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
-    dropArea.addEventListener(eventName, preventDefaults, false);
-});
-function preventDefaults(e) {
-    e.preventDefault();
-    e.stopPropagation();
-}
-['dragenter', 'dragover'].forEach(eventName => {
-    dropArea.addEventListener(eventName, highlight, false);
-});
-['dragleave', 'drop'].forEach(eventName => {
-    dropArea.addEventListener(eventName, unhighlight, false);
-});
-function highlight() {
-    dropArea.style.borderColor = '#3a7e45';
-    dropArea.style.backgroundColor = 'rgba(58, 126, 69, 0.1)';
-}
-function unhighlight() {
-    dropArea.style.borderColor = '#ced4da';
-    dropArea.style.backgroundColor = 'white';
-}
-dropArea.addEventListener('drop', handleDrop, false);
-function handleDrop(e) {
-    const dt = e.dataTransfer;
-    const files = dt.files;
-    if (files.length) {
-        document.getElementById('image').files = files;
-        // Trigger change event manually for preview
-        const event = new Event('change');
-        document.getElementById('image').dispatchEvent(event);
-    }
-}
-// Form submission
-document.getElementById('upload-form').addEventListener('submit', function(e) {
-    e.preventDefault();
-    const formData = new FormData(this);
-    // Show loading
-    document.getElementById('loading').style.display = 'block';
-    document.getElementById('result').style.display = 'none';
-    fetch('{% url "predict" %}', {
-        method: 'POST',
-        body: formData,
-        headers: {
-            'X-Requested-With': 'XMLHttpRequest',
-        }
-    })
-    .then(response => response.json())
-    .then(data => {
-        // Hide loading
-        document.getElementById('loading').style.display = 'none';
-        if (data.error) {
-            alert('Error: ' + data.error);
-            return;
-        }
+
+    // Close sidebar when clicking outside on mobile
+    document.addEventListener('click', function(event) {
+        const sidebar = document.querySelector('.sidebar');
+        const mobileMenuToggle = document.querySelector('.mobile-menu-toggle');
         
-        // Display result
-        document.getElementById('prediction').textContent = data.prediction;
-        document.getElementById('show-treatment-btn').style.display = 'block';
-        document.getElementById('show-treatment-btn').dataset.prediction = data.prediction;
-        
-        // Show the report download button if detection_id is available
-        if (data.detection_id) {
-            const downloadBtn = document.getElementById('download-report-btn');
-            downloadBtn.href = `/detection/report/${data.detection_id}/`;
-            downloadBtn.style.display = 'block';
+        if (window.innerWidth <= 768 && 
+            !sidebar.contains(event.target) && 
+            !mobileMenuToggle.contains(event.target)) {
+            sidebar.classList.remove('active');
         }
-        
-        document.getElementById('result').style.display = 'block';
-    })
-    .catch(error => {
-        document.getElementById('loading').style.display = 'none';
-        alert('Error: ' + error.message);
     });
-});
-document.getElementById('show-treatment-btn').addEventListener('click', function() {
-    const prediction = this.dataset.prediction;
-    // Show loading
-    document.getElementById('loading').style.display = 'block';
-    // Get plant name from disease prediction (format: "Plant___Disease")
-    const plantName = prediction.split('___')[0];
-    // Fetch the treatment data
-    fetch(`/detection/get-treatment/${prediction}/`)
-    .then(response => response.json())
-    .then(data => {
-        // Hide loading
-        document.getElementById('loading').style.display = 'none';
-        if (data.treatment) {
-            // Set the treatment text
-            document.getElementById('treatment-text').textContent = data.treatment;
-            // Show the treatment section
-            document.getElementById('treatment-result').style.display = 'block';
-        } else {
-            document.getElementById('treatment-text').textContent = '{% trans "No treatment found for this disease." %}';
-            document.getElementById('treatment-result').style.display = 'block';
+
+    // Handle window resize
+    window.addEventListener('resize', function() {
+        const sidebar = document.querySelector('.sidebar');
+        if (window.innerWidth > 768) {
+            sidebar.classList.remove('active');
         }
-        // Now fetch plant requirements data
-        return fetch(`/detection/get-requirements/${plantName}/`);
-    })
-    .then(response => response.json())
-    .then(requirementsData => {
-        if (!requirementsData.error) {
-            // Use the exact keys from our backend response
-            document.getElementById('optimal-temp').textContent = requirementsData.optimal_temperature;
-            document.getElementById('sunlight-req').textContent = requirementsData.sunlight_requirements;
-            document.getElementById('watering-req').textContent = requirementsData.watering_requirements;
-            document.getElementById('requirements-result').style.display = 'block';
-        }
-    })
-    .catch(error => {
-        document.getElementById('loading').style.display = 'none';
-        // Show error in the treatment section
-        document.getElementById('treatment-text').textContent = '{% trans "Error fetching data:" %} ' + error.message;
-        document.getElementById('treatment-result').style.display = 'block';
     });
-});
-</script>
+
+    // Make the entire drop area clickable
+    document.getElementById('file-drop-area').addEventListener('click', function(e) {
+        // Only trigger if the actual input wasn't clicked directly
+        if (e.target !== document.getElementById('image')) {
+            document.getElementById('image').click();
+        }
+    });
+    // Image preview functionality
+    document.getElementById('image').addEventListener('change', function(e) {
+        const file = e.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                document.getElementById('image-preview').src = e.target.result;
+                document.getElementById('preview-container').style.display = 'flex';
+            }
+            reader.readAsDataURL(file);
+        }
+    });
+    // Drag and drop functionality
+    const dropArea = document.getElementById('file-drop-area');
+    ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+        dropArea.addEventListener(eventName, preventDefaults, false);
+    });
+    function preventDefaults(e) {
+        e.preventDefault();
+        e.stopPropagation();
+    }
+    ['dragenter', 'dragover'].forEach(eventName => {
+        dropArea.addEventListener(eventName, highlight, false);
+    });
+    ['dragleave', 'drop'].forEach(eventName => {
+        dropArea.addEventListener(eventName, unhighlight, false);
+    });
+    function highlight() {
+        dropArea.style.borderColor = '#3a7e45';
+        dropArea.style.backgroundColor = 'rgba(58, 126, 69, 0.1)';
+    }
+    function unhighlight() {
+        dropArea.style.borderColor = '#ced4da';
+        dropArea.style.backgroundColor = 'white';
+    }
+    dropArea.addEventListener('drop', handleDrop, false);
+    function handleDrop(e) {
+        const dt = e.dataTransfer;
+        const files = dt.files;
+        if (files.length) {
+            document.getElementById('image').files = files;
+            // Trigger change event manually for preview
+            const event = new Event('change');
+            document.getElementById('image').dispatchEvent(event);
+        }
+    }
+    // Form submission
+    document.getElementById('upload-form').addEventListener('submit', function(e) {
+        e.preventDefault();
+        const formData = new FormData(this);
+        // Show loading
+        document.getElementById('loading').style.display = 'block';
+        document.getElementById('result').style.display = 'none';
+        fetch('{% url "predict" %}', {
+            method: 'POST',
+            body: formData,
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest',
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            // Hide loading
+            document.getElementById('loading').style.display = 'none';
+            if (data.error) {
+                alert('Error: ' + data.error);
+                return;
+            }
+            
+            // Display result
+            document.getElementById('prediction').textContent = data.prediction_translated; 
+            document.getElementById('show-treatment-btn').style.display = 'block';
+            document.getElementById('show-treatment-btn').dataset.prediction = data.prediction;
+            
+            // Show the report download button if detection_id is available
+            if (data.detection_id) {
+                const downloadBtn = document.getElementById('download-report-btn');
+                downloadBtn.href = `/detection/report/${data.detection_id}/`;
+                downloadBtn.style.display = 'block';
+            }
+            
+            document.getElementById('result').style.display = 'block';
+        })
+        .catch(error => {
+            document.getElementById('loading').style.display = 'none';
+            alert('Error: ' + error.message);
+        });
+    });
+    document.getElementById('show-treatment-btn').addEventListener('click', function() {
+        const prediction = this.dataset.prediction;
+        // Show loading
+        document.getElementById('loading').style.display = 'block';
+        // Get plant name from disease prediction (format: "Plant___Disease")
+        const plantName = prediction.split('___')[0];
+        // Fetch the treatment data
+        fetch(`/detection/get-treatment/${prediction}/`)
+        .then(response => response.json())
+        .then(data => {
+            // Hide loading
+            document.getElementById('loading').style.display = 'none';
+            if (data.treatment) {
+                // Set the treatment text
+                document.getElementById('treatment-text').textContent = data.treatment;
+                // Show the treatment section
+                document.getElementById('treatment-result').style.display = 'block';
+            } else {
+                document.getElementById('treatment-text').textContent = '{% trans "No treatment found for this disease." %}';
+                document.getElementById('treatment-result').style.display = 'block';
+            }
+            // Now fetch plant requirements data
+            return fetch(`/detection/get-requirements/${plantName}/`);
+        })
+        .then(response => response.json())
+        .then(requirementsData => {
+            if (!requirementsData.error) {
+                // Use the exact keys from our backend response
+                document.getElementById('optimal-temp').textContent = requirementsData.optimal_temperature;
+                document.getElementById('sunlight-req').textContent = requirementsData.sunlight_requirements;
+                document.getElementById('watering-req').textContent = requirementsData.watering_requirements;
+                document.getElementById('humidity').textContent = requirementsData.humidity;
+                document.getElementById('requirements-result').style.display = 'block';
+            }
+        })
+        .catch(error => {
+            document.getElementById('loading').style.display = 'none';
+            // Show error in the treatment section
+            document.getElementById('treatment-text').textContent = '{% trans "Error fetching data:" %} ' + error.message;
+            document.getElementById('treatment-result').style.display = 'block';
+            
+        });
+        
+    });
+
+    document.getElementById('calculate-yield-btn').addEventListener('click', function() {
+        // Show the yield prediction section
+        document.getElementById('yield-prediction-result').style.display = 'block';
+        document.getElementById('yield-prediction-result').scrollIntoView({
+            behavior: 'smooth',
+            block: 'start'
+        });
+    });
+
+    </script>
+    <!-- Add this to your home.html right after the requirements-result div -->
+    <div id="yield-prediction-result" class="result" style="display: none;">
+        <h2>{% trans "Yield Prediction" %}</h2>
+        <div id="yield-prediction-content" class="result-content">
+            <div id="yield-loading" style="text-align: center; display: none;">
+                <p>{% trans "Calculating yield prediction..." %}</p>
+                <div class="spinner"></div>
+            </div>
+            
+            <div id="yield-form" style="margin-bottom: 25px;">
+                <div class="form-group">
+                    <label for="location-input">{% trans "Enter Location:" %}</label>
+                    <input type="text" id="location-input" class="form-control" 
+                           value="Kathmandu" placeholder="e.g., Kathmandu">
+                </div>
+                <button type="button" id="calculate-yield-btn" class="submit-btn" style="margin-top: 0;">
+                    {% trans "Calculate Yield Prediction" %}
+                </button>
+            </div>
+            
+            <div id="yield-results" style="display: none;">
+                <div class="conditions-container" style="display: flex; justify-content: space-between; margin-bottom: 25px; flex-wrap: wrap;">
+                    <div class="condition-column" style="flex: 1; min-width: 280px; padding-right: 15px;">
+                        <h3>{% trans "Current Conditions" %}</h3>
+                        <p><span class="prediction-label">{% trans "Location:" %} </span><span id="yield-location" class="prediction-value"></span></p>
+                        <p><span class="prediction-label">{% trans "Temperature:" %} </span><span id="yield-temp" class="prediction-value"></span></p>
+                        <!-- <p><span class="prediction-label">{% trans "Weather:" %} </span><span id="yield-weather" class="prediction-value"></span></p> -->
+                    </div>
+                    <div class="condition-column" style="flex: 1; min-width: 280px;">
+                        <h3>{% trans "Plant Requirements" %}</h3>
+                        <p><span class="prediction-label">{% trans "Optimal Temperature:" %} </span><span id="yield-optimal-temp" class="prediction-value"></span></p>
+                        <!-- <p><span class="prediction-label">{% trans "Sunlight:" %} </span><span id="yield-sunlight" class="prediction-value"></span></p> -->
+                        <!-- <p><span class="prediction-label">{% trans "Watering:" %} </span><span id="yield-watering" class="prediction-value"></span></p> -->
+                        <p><span class="prediction-label">{% trans "Humidity:" %} </span><span id="yield-humidity" class="prediction-value"></span></p>
+                    </div>
+                </div>
+                
+                <div class="section-spacer"></div>
+                
+                <div style="margin-top: 20px; text-align: center;">
+                    <h3>{% trans "Yield Prediction" %}</h3>
+                    <div style="font-size: 2rem; font-weight: bold; color: var(--primary-color); margin: 15px 0;" id="yield-score"></div>
+                    <div style="font-size: 1.2rem; margin-bottom: 20px;" id="yield-description"></div>
+                    
+                    <div class="section-spacer"></div>
+                    
+                    <div style="margin-top: 30px;">
+                        <h3>{% trans "Recommendations" %}</h3>
+                        <ul id="yield-recommendations" style="text-align: left; padding-left: 20px;"></ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Update the JavaScript for handling yield prediction -->
+    <script>
+    // Add this after your existing document.ready or scripts
+    document.addEventListener('DOMContentLoaded', function() {
+        // Add a button to trigger yield prediction after treatment
+        const treatmentResult = document.getElementById('treatment-result');
+        
+        // Create the button if it doesn't exist
+        let yieldButton = document.getElementById('show-yield-prediction-btn');
+        if (!yieldButton) {
+            yieldButton = document.createElement('button');
+            yieldButton.id = 'show-yield-prediction-btn';
+            yieldButton.className = 'submit-btn';
+            yieldButton.style.marginTop = '10px';
+            yieldButton.textContent = '{% trans "Show Yield Prediction" %}';
+            yieldButton.style.display = 'none';
+            
+            // Add it to the report buttons
+            document.querySelector('.report-buttons').appendChild(yieldButton);
+        }
+        
+        // When treatment is shown, enable the yield prediction button
+        const showTreatmentBtn = document.getElementById('show-treatment-btn');
+        showTreatmentBtn.addEventListener('click', function() {
+            setTimeout(() => {
+                yieldButton.style.display = 'block';
+            }, 1000); // Small delay to ensure treatment is fully loaded
+        });
+        
+        // When yield button is clicked, show the yield prediction section
+        yieldButton.addEventListener('click', function() {
+            const prediction = document.getElementById('show-treatment-btn').dataset.prediction;
+            
+            // Ensure yield prediction section is visible but doesn't disrupt layout
+            document.getElementById('yield-prediction-result').style.display = 'block';
+            
+            // Scroll to the yield prediction section with offset to keep header visible
+            const yieldSection = document.getElementById('yield-prediction-result');
+            const headerHeight = 100; // Approximate header height
+            
+            window.scrollTo({
+                top: yieldSection.offsetTop - headerHeight,
+                behavior: 'smooth'
+            });
+        });
+        
+        // Calculate yield button
+        document.getElementById('calculate-yield-btn').addEventListener('click', function() {
+            // Get the prediction and plant name
+            const prediction = document.getElementById('show-treatment-btn').dataset.prediction;
+            const plantName = prediction.split('___')[0]; // Format: Plant___Disease or Plant___healthy
+            const location = document.getElementById('location-input').value.trim();
+            
+            if (!location) {
+                alert('{% trans "Please enter a location" %}');
+                return;
+            }
+            
+            // Show loading indicator
+            document.getElementById('yield-loading').style.display = 'block';
+            document.getElementById('yield-results').style.display = 'none';
+            
+            // Fetch yield prediction
+            fetch('/detection/get-yield-prediction/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value
+                },
+                body: JSON.stringify({
+                    plant_name: plantName,
+                    location: location,
+                    disease_detected: prediction,
+                    validate_location: true // Add a flag to request location validation
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                // Hide loading
+                document.getElementById('yield-loading').style.display = 'none';
+                
+                if (data.error) {
+                    alert('Error: ' + data.error);
+                    return;
+                }
+                
+                // Check if location is valid - if weather description is "Weather information unavailable"
+                if (data.current_weather && 
+                    (data.current_weather.description === 'Weather information unavailable' || 
+                     !data.current_weather.description)) {
+                    
+                    alert('{% trans "Invalid location. Please enter a valid city name." %}');
+                    return; // Don't show results for invalid locations
+                }
+                
+                // Update the UI with the yield prediction results
+                document.getElementById('yield-location').textContent = data.location;
+                document.getElementById('yield-temp').textContent = data.current_weather.temperature + '°C';
+                // document.getElementById('yield-weather').textContent = data.current_weather.description;
+                
+                document.getElementById('yield-optimal-temp').textContent = data.plant_requirements.optimal_temperature;
+                // document.getElementById('yield-sunlight').textContent = data.plant_requirements.sunlight_requirements;
+                // document.getElementById('yield-watering').textContent = data.plant_requirements.watering_requirements;
+                document.getElementById('yield-humidity').textContent = data.plant_requirements.optimal_humidity;
+
+                document.getElementById('yield-score').textContent = data.yield_prediction.level + ' (' + data.yield_prediction.score + '%)';
+                document.getElementById('yield-description').textContent = data.yield_prediction.description;
+                
+                // Add recommendations
+                const recommendationsList = document.getElementById('yield-recommendations');
+                recommendationsList.innerHTML = '';
+                if (data.recommendations && data.recommendations.length > 0) {
+                    data.recommendations.forEach(rec => {
+                        const li = document.createElement('li');
+                        li.textContent = rec;
+                        recommendationsList.appendChild(li);
+                    });
+                } else {
+                    const li = document.createElement('li');
+                    li.textContent = '{% trans "Current conditions are optimal for this plant." %}';
+                    recommendationsList.appendChild(li);
+                }
+                
+                // Show results with smooth transition
+                document.getElementById('yield-results').style.display = 'block';
+            })
+            .catch(error => {
+                document.getElementById('yield-loading').style.display = 'none';
+                alert('Error: ' + error.message);
+            });
+        });
+    });
+
+
+    </script>
 </body>
 </html>

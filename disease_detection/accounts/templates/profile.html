@@ -287,7 +287,7 @@ body {
             <h2>{% trans "Plant Health" %}</h2>
         </div>
         
-        {% include "inline_language_switcher.html" %}
+        
         
         <nav class="sidebar-nav">
             <a href="{% url 'home' %}">
@@ -345,7 +345,29 @@ body {
 
     <div class="main-content">
         <div class="container">
-            <div class="header">
+                    <div class="header">
+                        <!-- <h1 class="header-text">{% trans "Detection History" %}</h1> -->
+                        <div class="language-switcher">
+                            <p>{% trans "Language" %}:</p>
+                            <form action="{% url 'set_language' %}" method="post" style="display: inline;">
+                                {% csrf_token %}
+                                <input name="next" type="hidden" value="{{ request.path }}">
+                                <input name="language" type="hidden" value="en">
+                                <button type="submit" class="language-button {% if LANGUAGE_CODE == 'en' %}language-active{% else %}language-inactive{% endif %}">
+                                    English
+                                </button>
+                            </form>
+                            
+                            <form action="{% url 'set_language' %}" method="post" style="display: inline;">
+                                {% csrf_token %}
+                                <input name="next" type="hidden" value="{{ request.path }}">
+                                <input name="language" type="hidden" value="ne">
+                                <button type="submit" class="language-button {% if LANGUAGE_CODE == 'ne' %}language-active{% else %}language-inactive{% endif %}">
+                                    नेपाली
+                                </button>
+                            </form>
+                        </div>
+                    </div>
                <p class="header-user">{% trans "User Profile" %}</p>
             </div>
 

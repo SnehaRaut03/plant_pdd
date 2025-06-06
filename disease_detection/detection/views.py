@@ -18,10 +18,40 @@ import requests
 import json
 from django.conf import settings
 from datetime import datetime
+from django.utils.translation import gettext as _
 import pytz
 from .utils import render_to_pdf
+from django.template.loader import render_to_string
+from weasyprint import HTML  # Ensure you have WeasyPrint installed
 
+WEATHER_TRANSLATIONS = {
+    "clear sky": "खुला आकाश",
+    "few clouds": "थोरै बादल",
+    "scattered clouds": "छरिएका बादल",
+    "broken clouds": "फुटेका बादल",
+    "shower rain": "झरी",
+    "rain": "वर्षा",
+    "thunderstorm": "गडगडाहटसहितको वर्षा",
+    "snow": "हिउँ",
+    "mist": "कुहिरो"
+}
 
+SUNLIGHT_TRANSLATIONS = {
+    "Full": "पूरा",
+    "Partial": "आंशिक",
+    "Low": "कम"
+}
+
+WATERING_TRANSLATIONS = {
+    "Medium": "मध्यम",
+    "High": "धेरै",
+    "Low": "कम"
+}
+
+def translate_range(value, to_word_nepali="देखि"):
+    if isinstance(value, str):
+        return value.replace("to", to_word_nepali)
+    return value
 
 logging.basicConfig(
     level=logging.INFO,
@@ -85,6 +115,11 @@ DEBUG = True
 model = None
 treatment_df = pd.read_csv('/Users/sneharaut/Desktop/Plant_Disease_Dataset-2/treatments.csv', encoding='utf-8')
 requirements_df = pd.read_csv('/Users/sneharaut/Desktop/Plant_Disease_Dataset-2/treatment/plant_requirements.csv', encoding='utf-8')
+
+# After normalization, all columns are lowercase and spaces are preserved unless you also replace spaces with underscores.
+# If you want to be extra robust, you can also replace spaces with underscores:
+requirements_df.columns = requirements_df.columns.str.strip().str.lower().str.replace(' ', '_')
+
 def preprocess_image(image_file):
     """
     Preprocess the image using the exact same approach as in Streamlit
@@ -164,6 +199,7 @@ def predict(request):
             # Make prediction
             logger.info("Running prediction...")
             predictions = model.predict(input_array)
+
             
             # Log raw prediction data
             logger.info(f"Prediction shape: {predictions.shape}")
@@ -185,28 +221,23 @@ def predict(request):
             predicted_confidence = float(predictions[0][predicted_class_index])
             predicted_class_name = class_names[predicted_class_index]
             
-            logger.info(f"Predicted class: {predicted_class_name} (index: {predicted_class_index})")
-            logger.info(f"Confidence: {predicted_confidence:.6f}")
-            
             # Get top 3 predictions for display
             top_indices = np.argsort(predictions[0])[-3:][::-1]
             top_predictions = {class_names[i]: float(predictions[0][i]) for i in top_indices}
             
-
+            # Get treatment info
             treatment_info = treatment_df[treatment_df['Disease_Name'] == predicted_class_name]
             if not treatment_info.empty:
-                treatment = treatment_info.iloc[0]['Treatment']  # Assuming 'treatment' column in CSV
+                treatment = treatment_info.iloc[0]['Treatment']
             else:
-                treatment = "Treatment information not available"
-            
+                treatment = _("Treatment information not available")
             
             # Clean up resources
             if os.path.exists(temp_path) and temp_path.startswith(tempfile.gettempdir()):
                 os.unlink(temp_path)
                 logger.info(f"Temporary file deleted: {temp_path}")
-            
-            # Clean memory
             gc.collect()
+            
             
             # Save to history
             history_item = DetectionHistory.objects.create(
@@ -217,19 +248,22 @@ def predict(request):
             
             # Return detection_id in the response
             return JsonResponse({
-                'prediction': predicted_class_name,
+                
+           'prediction': predicted_class_name,  # English, for backend use
+           'prediction_translated': _(predicted_class_name),  # Nepali, for display
+
                 'confidence': predicted_confidence,
-                'treatment': treatment,
-                'top_predictions': top_predictions,
+                'treatment': _(treatment),              
+                'top_predictions': {_(k): v for k, v in top_predictions.items()},  
                 'detection_id': history_item.id
             })
             
         except Exception as e:
             logger.error(f"Error in prediction: {str(e)}")
             logger.error(traceback.format_exc())
-            return JsonResponse({"error": f"Prediction error: {str(e)}"}, status=500)
+            return JsonResponse({"error": _("Prediction error: ") + str(e)}, status=500)
     
-    return JsonResponse({"error": "Invalid request"}, status=400)
+    return JsonResponse({"error": _("Invalid request")}, status=400)
 
 def get_treatment(request, disease_name):
     """Retrieve treatment information for a disease"""
@@ -242,7 +276,7 @@ def get_treatment(request, disease_name):
         
         if not treatment_info.empty:
             treatment = treatment_info.iloc[0]['Treatment']  # Changed 'treatment' to 'Treatment'
-            return JsonResponse({'treatment': treatment})
+            return JsonResponse({'treatment': _(treatment)})
         else:
             return JsonResponse({'error': 'Treatment not found for this disease'}, status=404)
     
@@ -256,25 +290,48 @@ def get_requirements(request, plant_name):
     try:
         # Decode URL-encoded plant name
         plant_name = unquote(plant_name)
-        
-        # Find the requirements for the plant
-        req_info = requirements_df[requirements_df['Plant Name'].str.lower() == plant_name.lower()]
-        
+
+        # Find the actual plant name column in a case-insensitive and space-insensitive way in requirements_df.
+        # Use requirements_df.columns directly as they are globally normalized to lowercase with underscores.
+        plant_column = None
+        for col in requirements_df.columns:
+            # Check if 'plant' and 'name' are in the lowercase column name and if it's the normalized form.
+            if 'plant' in col.lower() and 'name' in col.lower() and 'plant_name' in col.lower():
+                 plant_column = col
+                 break # Found the likely column, break the loop
+
+        if not plant_column:
+            logger.error("Cannot find a suitable 'plant name' column in requirements_df.")
+            logger.error(f"Available columns in requirements_df: {requirements_df.columns.tolist()}")
+            return JsonResponse({'error': 'Internal configuration error: Plant name column not found'}, status=500)
+
+        # Filter requirements_df by plant name (case-insensitive) using the identified column.
+        # Ensure we are definitely using requirements_df here and not accidentally treatment_df.
+        req_info = requirements_df[requirements_df[plant_column].str.lower() == plant_name.lower()]
+
         if not req_info.empty:
-            # Use consistent keys in the JSON response with standardized names
+            # Use consistent lowercase keys for the response, matching the global normalization of requirements_df columns.
+            # Correcting the .iloc[0].iloc[0] mistake from the previous edit.
             requirements = {
-                'optimal_temperature': req_info.iloc[0]['Optimal_temperature'],
-                'sunlight_requirements': req_info.iloc[0]['Sunlight_requirement'],
-                'watering_requirements': req_info.iloc[0]['Watering _requirement']  # Maintain the space as in CSV
+                'optimal_temperature': req_info.iloc[0].get('optimal_temperature', 'Not available'),
+                'sunlight_requirements': req_info.iloc[0].get('sunlight_requirement', 'Not available'),
+                'watering_requirements': req_info.iloc[0].get('watering__requirement', 'Not available'),
+                'humidity': req_info.iloc[0].get('humidity', 'Not available')
             }
-            return JsonResponse(requirements)
+            return JsonResponse(requirements);
         else:
-            return JsonResponse({'error': 'Requirements not found for this plant'}, status=404)
-    
+            # Log that requirements were not found for the specific plant name.
+            logger.info(f"Requirements not found for plant: {plant_name}")
+            # Also log the plant names available in the dataframe for debugging
+            if plant_column:
+                logger.info(f"Available plant names in requirements_df: {requirements_df[plant_column].unique().tolist()}")
+            return JsonResponse({'error': 'Requirements not found for this plant'}, status=404);
+
     except Exception as e:
         logger.error(f"Error in get_requirements: {str(e)}")
         logger.error(traceback.format_exc())
-        return JsonResponse({'error': 'An error occurred while retrieving plant requirements'}, status=500)
+        return JsonResponse({'error': 'An error occurred while retrieving plant requirements'}, status=500);
+
 def home(request):
     # Get weather data
     weather = get_weather_data()
@@ -423,20 +480,22 @@ def get_default_weather(nepal_time_str):
     }
 
 @login_required
-def generate_report(request, detection_id):
+def generate_report(request, id):
     # Get the detection record
-    detection = get_object_or_404(DetectionHistory, id=detection_id, user=request.user)
+    detection = get_object_or_404(DetectionHistory, id=id, user=request.user)
     
-    # Get treatment data (similar to your existing code)
+    # Get prediction and plant name
     prediction = detection.prediction
     plant_name = prediction.split('___')[0] if '___' in prediction else prediction
     
     # Get treatment data
     treatment = "No treatment information available."
     try:
-        # Use your existing treatment logic here
-        # Example: treatment = get_treatment_for_disease(prediction)
-        pass
+        # Don't use the view function directly - extract the treatment info
+        # Find the treatment for the disease from your dataframe
+        treatment_info = treatment_df[treatment_df['Disease_Name'].str.lower() == prediction.lower()]
+        if not treatment_info.empty:
+            treatment = treatment_info.iloc[0]['Treatment']
     except Exception as e:
         print(f"Error getting treatment: {e}")
     
@@ -444,13 +503,22 @@ def generate_report(request, detection_id):
     requirements = {
         'optimal_temperature': 'Not available',
         'sunlight_requirements': 'Not available',
-        'watering_requirements': 'Not available'
+        'watering_requirements': 'Not available',
+        'humidity': 'Not available'
     }
-    
     try:
-        # Use your existing growing requirements logic here
-        # Example: requirements = get_requirements_for_plant(plant_name)
-        pass
+        # Always compare lowercased values
+        req_info = requirements_df[requirements_df['plant_name'].str.lower() == plant_name.lower()]
+        print("Looking for plant_name:", plant_name)
+        print("Available plant names:", requirements_df['plant_name'].unique())
+        print("Filtered row:", req_info)
+        if not req_info.empty:
+            requirements = {
+                'optimal_temperature': req_info.iloc[0].get('optimal_temperature', 'Not available'),
+                'sunlight_requirements': req_info.iloc[0].get('sunlight_requirement', 'Not available'),
+                'watering_requirements': req_info.iloc[0].get('watering__requirement', 'Not available'),
+                'humidity': req_info.iloc[0].get('humidity', 'Not available')
+            }
     except Exception as e:
         print(f"Error getting requirements: {e}")
     
@@ -460,19 +528,221 @@ def generate_report(request, detection_id):
         'prediction': prediction,
         'treatment': treatment,
         'requirements': requirements,
-        'date': datetime.datetime.now().strftime("%Y-%m-%d"),
+        'date': datetime.now().strftime("%Y-%m-%d"),
         'user': request.user,
         'plant_name': plant_name
     }
     
-    # Generate PDF
-    pdf = render_to_pdf('pdf_report.html', context)
+    # Render the PDF
+    html_string = render_to_string('pdf_report.html', context)
+    pdf = HTML(string=html_string).write_pdf()  # Generate PDF from HTML
     
     if pdf:
         response = HttpResponse(pdf, content_type='application/pdf')
-        filename = f"Plant_Disease_Report_{detection.id}.pdf"
+        filename = f"Plant_Disease_Report_{id}.pdf"
         content = f"attachment; filename={filename}"
         response['Content-Disposition'] = content
         return response
     
     return HttpResponse("Error generating PDF", status=400)
+# Add this to your views.py file
+
+def get_yield_prediction(request):
+    """Get yield prediction based on plant requirements and current weather including temperature and humidity"""
+    try:
+        # Get parameters from request
+        if request.method == 'POST':
+            data = json.loads(request.body)
+            plant_name = data.get('plant_name')
+            location = data.get('location', 'Kathmandu')  # Default to Kathmandu if not specified
+            disease_detected = data.get('disease_detected', 'healthy')
+        else:
+            plant_name = request.GET.get('plant_name')
+            location = request.GET.get('location', 'Kathmandu')
+            disease_detected = request.GET.get('disease_detected', 'healthy')
+            
+        if not plant_name:
+            return JsonResponse({'error': 'Plant name is required'}, status=400)
+            
+        # Get real-time weather data for the location
+        weather_data = get_weather_data(location)
+        weather_desc_en = weather_data.get('description', '')  # e.g., "broken clouds"
+        
+        # Debugging - log the request data and column names
+        logger.info(f"Yield prediction request for plant: {plant_name}, location: {location}")
+        logger.info(f"Available columns in requirements_df: {requirements_df.columns.tolist()}")
+        
+        # Normalize column names to handle potential case sensitivity issues
+        normalized_df = requirements_df.copy()
+        normalized_df.columns = normalized_df.columns.str.strip().str.lower()
+        
+        # Look for plant name in a case-insensitive way
+        plant_column = None
+        for col in normalized_df.columns:
+            if 'plant' in col and 'name' in col:
+                plant_column = col
+                break
+                
+        if not plant_column:
+            logger.error("Cannot find 'plant name' column in requirements_df")
+            return JsonResponse({'error': 'Internal configuration error: Plant name column not found'}, status=500)
+            
+        # Find the plant using the identified column
+        plant_req = normalized_df[normalized_df[plant_column].str.lower() == plant_name.lower()]
+        
+        if plant_req.empty:
+            # Log available plant names for debugging
+            available_plants = normalized_df[plant_column].unique().tolist()
+            logger.info(f"Available plants: {available_plants}")
+            return JsonResponse({'error': f'Requirements not found for plant: {plant_name}'}, status=404)
+            
+        optimal_temp_col = next((col for col in normalized_df.columns if 'optimal' in col and 'temp' in col), None)
+        sunlight_col = next((col for col in normalized_df.columns if 'sun' in col), None)
+        watering_col = next((col for col in normalized_df.columns if 'water' in col), None)
+        humidity_col = next((col for col in normalized_df.columns if 'humid' in col), None)
+        
+        # Get values with safe fallbacks
+        optimal_temp = plant_req.iloc[0][optimal_temp_col] if optimal_temp_col else "20 to 30°C"
+        sunlight_req = plant_req.iloc[0][sunlight_col] if sunlight_col else "Full sun"
+        watering_req = plant_req.iloc[0][watering_col] if watering_col else "Regular watering"
+        optimal_humidity = plant_req.iloc[0][humidity_col] if humidity_col else "50% to 70%"
+        
+        # Parse optimal temperature range
+        temp_range = str(optimal_temp).replace('°C', '').replace('˚C', '').strip()
+        try:
+            if 'to' in temp_range:
+                parts = temp_range.split('to')
+                min_temp_str = ''.join(c for c in parts[0] if c.isdigit() or c == '.')
+                max_temp_str = ''.join(c for c in parts[1] if c.isdigit() or c == '.')
+                min_temp = float(min_temp_str) if min_temp_str else 20.0
+                max_temp = float(max_temp_str) if max_temp_str else 30.0
+            elif '-' in temp_range:
+                min_temp, max_temp = map(float, temp_range.split('-'))
+            else:
+                # Handle single temperature value
+                temp_str = ''.join(c for c in temp_range if c.isdigit() or c == '.')
+                min_temp = max_temp = float(temp_str) if temp_str else 25.0
+        except Exception as e:
+            logger.warning(f"Error parsing temperature: {e}, using default values")
+            min_temp, max_temp = 20.0, 30.0
+            
+        # Parse optimal humidity range with error handling
+        humidity_range = str(optimal_humidity).strip()
+        try:
+            if '%' in humidity_range and 'to' in humidity_range:
+                parts = humidity_range.split('to')
+                min_humidity_str = parts[0].replace('%', '').strip()
+                max_humidity_str = parts[1].replace('%', '').strip()
+                min_humidity = float(min_humidity_str) if min_humidity_str.replace('.', '', 1).isdigit() else 50.0
+                max_humidity = float(max_humidity_str) if max_humidity_str.replace('.', '', 1).isdigit() else 70.0
+            elif 'to' in humidity_range:
+                parts = humidity_range.split('to')
+                min_humidity_str = ''.join(c for c in parts[0] if c.isdigit() or c == '.')
+                max_humidity_str = ''.join(c for c in parts[1] if c.isdigit() or c == '.')
+                min_humidity = float(min_humidity_str) if min_humidity_str else 50.0
+                max_humidity = float(max_humidity_str) if max_humidity_str else 70.0
+            elif '-' in humidity_range:
+                parts = humidity_range.replace('%', '').split('-')
+                min_humidity = float(parts[0].strip())
+                max_humidity = float(parts[1].strip())
+            else:
+                # Handle single humidity value
+                humidity_str = ''.join(c for c in humidity_range if c.isdigit() or c == '.')
+                min_humidity = max_humidity = float(humidity_str) if humidity_str else 60.0
+        except Exception as e:
+            logger.warning(f"Error parsing humidity: {e}, using default values")
+            min_humidity, max_humidity = 50.0, 70.0
+            
+        # Current temperature and humidity (with safety checks)
+        current_temp = weather_data.get('temperature', 25)
+        current_humidity = weather_data.get('humidity', 60)
+        
+        # Calculate temperature score (0-1)
+        if min_temp <= current_temp <= max_temp:
+            temp_score = 1.0
+        else:
+            # The further from optimal range, the lower the score
+            closest_optimal = min_temp if abs(current_temp - min_temp) < abs(current_temp - max_temp) else max_temp
+            temp_difference = abs(current_temp - closest_optimal)
+            temp_score = max(0, 1 - (temp_difference / 10))  # Decrease by 0.1 for each degree away
+            
+        # Calculate humidity score (0-1)
+        if min_humidity <= current_humidity <= max_humidity:
+            humidity_score = 1.0
+        else:
+            # The further from optimal range, the lower the score
+            closest_optimal = min_humidity if abs(current_humidity - min_humidity) < abs(current_humidity - max_humidity) else max_humidity
+            humidity_difference = abs(current_humidity - closest_optimal)
+            humidity_score = max(0, 1 - (humidity_difference / 20))  # Decrease by 0.05 for each percentage point away
+            
+        # Disease impact (if disease detected, yield will be reduced)
+        disease_factor = 0.6 if disease_detected.lower() != 'healthy' and '___healthy' not in disease_detected.lower() else 1.0
+            
+        # Calculate yield score (0-100%)
+        # Consider both temperature and humidity with equal weights (50% each)
+        environmental_score = (temp_score * 0.5) + (humidity_score * 0.5)
+        yield_score = environmental_score * disease_factor * 100
+        
+        # Yield prediction levels
+        if yield_score >= 80:
+            yield_level = "Excellent"
+            yield_description = "Expected to produce maximum yield"
+        elif yield_score >= 60:
+            yield_level = "Good"
+            yield_description = "Expected to produce good yield"
+        elif yield_score >= 40:
+            yield_level = "Average"
+            yield_description = "Expected to produce average yield"
+        elif yield_score >= 20:
+            yield_level = "Below Average"
+            yield_description = "Expected to produce below average yield"
+        else:
+            yield_level = "Poor"
+            yield_description = "Expected to produce poor yield"
+            
+        # Recommendations based on conditions
+        recommendations = []
+        
+        if current_temp < min_temp:
+            recommendations.append(f"Temperature is too low ({current_temp}°C). Consider using greenhouse or temperature control methods to raise temperature to {min_temp}-{max_temp}°C.")
+        elif current_temp > max_temp:
+            recommendations.append(f"Temperature is too high ({current_temp}°C). Consider shade or cooling methods to lower temperature to {min_temp}-{max_temp}°C.")
+            
+        if current_humidity < min_humidity:
+            recommendations.append(f"Humidity is too low ({current_humidity}%). Consider using humidity-increasing methods like misting to achieve {min_humidity}-{max_humidity}%.")
+        elif current_humidity > max_humidity:
+            recommendations.append(f"Humidity is too high ({current_humidity}%). Consider improving ventilation or using dehumidifiers to lower humidity to {min_humidity}-{max_humidity}%.")
+            
+        if disease_detected.lower() != 'healthy' and '___healthy' not in disease_detected.lower():
+            recommendations.append(f"Treat the detected disease ({disease_detected}) promptly to improve yield.")
+        
+        response_data = {
+            'plant_name': plant_name,
+            'location': location,
+            'current_weather': {
+                'temperature': current_temp,
+                'humidity': current_humidity,
+                'description': weather_desc_en
+            },
+            'plant_requirements': {
+                'optimal_temperature': optimal_temp,
+                'optimal_humidity': optimal_humidity,
+                'sunlight_requirements': sunlight_req,
+                'watering_requirements': watering_req
+            },
+            'yield_prediction': {
+                'score': round(yield_score, 1),
+                'temperature_score': round(temp_score * 100, 1),
+                'humidity_score': round(humidity_score * 100, 1),
+                'level': yield_level,
+                'description': yield_description
+            },
+            'recommendations': recommendations
+        }
+        
+        return JsonResponse(response_data)
+        
+    except Exception as e:
+        logger.error(f"Error in yield prediction: {str(e)}")
+        logger.error(traceback.format_exc())
+        return JsonResponse({'error': f'An error occurred: {str(e)}'}, status=500)

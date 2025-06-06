@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-04-06 12:00+0000\n"
+"POT-Creation-Date: 2025-05-18 18:21+0545\n"
 "PO-Revision-Date: 2024-04-06 12:00+0000\n"
 "Last-Translator: \n"
 "Language: ne\n"
@@ -11,122 +11,560 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: templates/base.html:7
+#: accounts/templates/base.html:7 accounts/templates/base.html:32
 msgid "Plant Disease Recognition"
 msgstr "वनस्पति रोग पहिचान"
 
-#: templates/base.html:25
-msgid "Language"
-msgstr "भाषा"
 
-#: templates/base.html:35
+
+#: accounts/templates/base.html:48
 msgid "Plant Disease Recognition System"
 msgstr "वनस्पति रोग पहिचान प्रणाली"
 
-#: templates/login.html:10
-msgid "Login"
-msgstr "लगइन"
+#: accounts/templates/inline_language_switcher.html:5
+#: accounts/templates/manage_users.html:321 accounts/templates/profile.html:351
+#: detection/templates/add_this_to_home.html:29
+#: detection/templates/history.html:356 detection/templates/home.html:538
+#: detection/templates/inline_language_switcher.html:5
+msgid "Language"
+msgstr "भाषा"
 
-#: templates/signup.html:10
-msgid "Sign Up"
-msgstr "साइन अप"
+#: accounts/templates/manage_users.html:5
+#: accounts/templates/manage_users.html:341 accounts/templates/profile.html:326
+#: detection/templates/history.html:332 detection/templates/home.html:512
+msgid "Manage Users"
+msgstr "प्रयोगकर्ता व्यवस्थापन"
 
-#: templates/home.html:10
+#: accounts/templates/manage_users.html:279 accounts/templates/profile.html:298
+#: detection/templates/history.html:305 detection/templates/home.html:485
 msgid "Home"
 msgstr "होम"
 
-#: templates/home.html:15
-msgid "Upload Image"
-msgstr "छवि अपलोड गर्नुहोस्"
-
-#: templates/home.html:20
-msgid "Predict"
-msgstr "पूर्वानुमान"
-
-#: templates/home.html:25
-msgid "Show Treatment"
-msgstr "उपचार देखाउनुहोस्"
-
-#: templates/home.html:30
-msgid "History"
-msgstr "इतिहास"
-
-#: templates/home.html:35
+#: accounts/templates/manage_users.html:286 accounts/templates/profile.html:306
+#: detection/templates/history.html:313 detection/templates/home.html:493
 msgid "Profile"
 msgstr "प्रोफाइल"
 
-#: templates/home.html:40
+#: accounts/templates/manage_users.html:295 accounts/templates/profile.html:315
+#: detection/templates/history.html:322 detection/templates/home.html:502
+msgid "History"
+msgstr "इतिहास"
+
+#: accounts/templates/manage_users.html:307 accounts/templates/profile.html:340
+#: detection/templates/history.html:345 detection/templates/home.html:525
 msgid "Logout"
 msgstr "लगआउट"
 
-#: templates/home.html:45
-msgid "Please upload an image first"
-msgstr "कृपया पहिले छवि अपलोड गर्नुहोस्"
-
-#: templates/home.html:50
-msgid "Our Prediction"
-msgstr "हाम्रो पूर्वानुमान"
-
-#: templates/home.html:55
-msgid "Recommended Treatment"
-msgstr "सिफारिस गरिएको उपचार"
-
-#: templates/home.html:60
-msgid "No treatment details available"
-msgstr "कुनै उपचार विवरण उपलब्ध छैन" 
-
-#: templates/profile.html:4 templates/profile.html:252
-msgid "User Profile"
-msgstr "प्रयोगकर्ता प्रोफाइल"
-
-#: templates/profile.html:258
-msgid "Username"
-msgstr "प्रयोगकर्ता नाम"
-
-#: templates/profile.html:262
-msgid "Email"
-msgstr "इमेल"
-
-#: templates/profile.html:266
-msgid "Date Joined"
-msgstr "सदस्यता मिति"
-
-#: templates/profile.html:270
-msgid "Role"
-msgstr "भूमिका"
-
-#: templates/profile.html:272
-msgid "Administrator"
-msgstr "प्रशासक"
-
-#: templates/profile.html:274
-msgid "Regular User"
-msgstr "सामान्य प्रयोगकर्ता"
-
-#: templates/history.html:4
+#: accounts/templates/manage_users.html:319 accounts/templates/profile.html:349
+#: detection/templates/history.html:5 detection/templates/history.html:354
+#: detection/templates/history.html:378
 msgid "Detection History"
 msgstr "पहिचान इतिहास"
 
-#: templates/history.html:264
+#: accounts/templates/manage_users.html:346
+msgid "Total Users"
+msgstr "कुल प्रयोगकर्ताहरू"
+
+#: accounts/templates/manage_users.html:350
+msgid "Total Detections"
+msgstr "कुल पहिचानहरू"
+
+#: accounts/templates/manage_users.html:357 accounts/templates/profile.html:387
+msgid "Username"
+msgstr "प्रयोगकर्ता नाम"
+
+#: accounts/templates/manage_users.html:358 accounts/templates/profile.html:391
+msgid "Email"
+msgstr "इमेल"
+
+#: accounts/templates/manage_users.html:359
+msgid "Join Date"
+msgstr "सदस्यता मिति"
+
+#: accounts/templates/manage_users.html:360
+msgid "Last Login"
+msgstr "अन्तिम लगइन"
+
+#: accounts/templates/manage_users.html:361
+msgid "Detections"
+msgstr "पहिचानहरू"
+
+#: accounts/templates/manage_users.html:362
+msgid "Actions"
+msgstr "कार्यहरू"
+
+#: accounts/templates/profile.html:5 accounts/templates/profile.html:371
+msgid "User Profile"
+msgstr "प्रयोगकर्ता प्रोफाइल"
+
+#: accounts/templates/profile.html:287
+msgid "Plant Health"
+msgstr ""
+
+#: accounts/templates/profile.html:395
+msgid "Date Joined"
+msgstr "सदस्यता मिति"
+
+#: accounts/templates/profile.html:399
+msgid "Role"
+msgstr "भूमिका"
+
+#: accounts/templates/profile.html:402
+msgid "Administrator"
+msgstr "प्रशासक"
+
+#: accounts/templates/profile.html:404
+msgid "Regular User"
+msgstr "सामान्य प्रयोगकर्ता"
+
+#: detection/templates/add_this_to_home.html:6
+#: detection/templates/language_switcher.html:5
+#, fuzzy
+#| msgid "Language"
+msgid "Choose Language"
+msgstr "भाषा"
+
+#: detection/templates/history.html:382
 msgid "Leaf Image"
 msgstr "पात छवि"
 
-#: templates/history.html:266
+#: detection/templates/history.html:384 detection/templates/home.html:591
+#, fuzzy
+#| msgid "Our Prediction"
+msgid "Prediction:"
+msgstr "हाम्रो पूर्वानुमान"
+
+#: detection/templates/history.html:385
 msgid "Detected on:"
 msgstr "पहिचान गरिएको मिति:"
 
-#: templates/history.html:268
+#: detection/templates/history.html:387
 msgid "Download Report"
 msgstr "रिपोर्ट डाउनलोड गर्नुहोस्"
 
-#: templates/history.html:272
+#: detection/templates/history.html:390
 msgid "Are you sure you want to delete this item?"
 msgstr "के तपाईं यो आइटम मेटाउन निश्चित हुनुहुन्छ?"
 
-#: templates/history.html:274
+#: detection/templates/history.html:393
 msgid "Delete"
 msgstr "मेटाउनुहोस्"
 
-#: templates/history.html:288
+#: detection/templates/history.html:407
 msgid "You haven't made any detections yet."
 msgstr "तपाईंले अहिलेसम्म कुनै पहिचान गर्नुभएको छैन।"
+
+#: detection/templates/home.html:5 detection/templates/home.html:536
+msgid "Plant Disease Detection"
+msgstr "वनस्पति रोग पहिचान"
+
+
+
+#: detection/templates/home.html:566
+msgid "Select leaf image:"
+msgstr "पातको छवि चयन गर्नुहोस्:"
+
+#: detection/templates/home.html:569
+msgid "Drag & drop an image here or click to browse"
+msgstr "यहाँ छवि तान्नुहोस् र छोड्नुहोस् वा ब्राउज गर्न क्लिक गर्नुहोस्"
+
+#: detection/templates/home.html:570
+msgid "Supported formats: JPG, PNG, JPEG"
+msgstr "समर्थित ढाँचा: JPG, PNG, JPEG"
+
+#: detection/templates/home.html:575 detection/templates/home.html:576
+msgid "Image Preview"
+msgstr "छवि पूर्वावलोकन"
+
+#: detection/templates/home.html:8 
+msgid "Sneha"
+msgstr "वनस्पति रोग पहिचान प्रणाली"
+
+#: detection/templates/home.html:579
+msgid "Analyze Image"
+msgstr "छवि विश्लेषण गर्नुहोस्"
+
+#: detection/templates/home.html:580 detection/templates/home.html:611
+msgid "Show Treatment"
+msgstr "उपचार देखाउनुहोस्"
+
+#: detection/templates/home.html:584
+msgid "Analyzing image... Please wait"
+msgstr "छवि विश्लेषण गर्दै... कृपया पर्खनुहोस्"
+
+#: detection/templates/home.html:589
+msgid "Detection Results"
+msgstr "पहिचानका परिणाम"
+
+#: detection/templates/home.html:595
+msgid "Treatment Recommendation"
+msgstr "उपचार सिफारिस"
+
+#: detection/templates/home.html:601
+msgid "Plant Growing Requirements"
+msgstr "वनस्पति वृद्धि आवश्यकताहरू"
+
+#: detection/templates/home.html:603 detection/templates/home.html:827
+msgid "Optimal Temperature:"
+msgstr "अनुकूल तापमान:"
+
+#: detection/templates/home.html: 726
+msgid "Our AI-powered system analyzes plant leaf images to detect diseases and provide treatment recommendations. Upload a clear image of a plant leaf to get instant results. This system is trained to recognize diseases in specific plants such as apple, tomato, grape, potato, and more, offering accurate diagnosis and tailored treatment advice."
+msgstr "हाम्रो एआई-सञ्चालित प्रणालीले बिरुवाको पातको तस्बिरहरू विश्लेषण गरेर रोगहरू पत्ता लगाउने र उपचार सिफारिसहरू प्रदान गर्ने काम गर्छ। तुरुन्त परिणामहरू प्राप्त गर्न एक स्पष्ट पातको तस्बिर अपलोड गर्नुहोस्। यो प्रणाली विशेष रूपमा स्याउ, टमाटर, आलु लगायतका विभिन्न बिरुवाहरूका लागि डिजाइन गरिएको हो, जसले ती बिरुवामा हुने विशेष रोगहरू पहिचान गरी उपयुक्त समाधानहरू सुझाव दिन्छ।"
+
+
+#: detection/templates/home.html:822
+msgid "Temperature:"
+msgstr "तापमान:"
+
+#: detection/templates/home.html:604
+msgid "Sunlight Requirements:"
+msgstr "सूर्यको प्रकाश आवश्यकताहरू:"
+
+#: detection/templates/home.html:605
+msgid "Watering Requirements:"
+msgstr "पानीको आवश्यकताहरू:"
+
+#: detection/templates/home.html:606 detection/templates/home.html:636
+#: detection/templates/home.html:830
+msgid "Humidity:"
+msgstr "आर्द्रता"
+
+#: detection/templates/home.html:613
+msgid "Download PDF Report"
+msgstr "PDF रिपोर्ट डाउनलोड गर्नुहोस्"
+
+#: detection/templates/home.html:620
+msgid "Weather in"
+msgstr "मौसम "
+
+#: detection/templates/home.html:635
+msgid "Feels like:"
+msgstr "महसुस हुने तापमान"
+
+#: detection/templates/home.html:637
+msgid "Wind:"
+msgstr "हावा"
+
+#: detection/templates/home.html:760
+msgid "No treatment found for this disease."
+msgstr "यस रोगको लागि कुनै उपचार फेला परेन।"
+
+#: detection/templates/home.html:780
+msgid "Error fetching data:"
+msgstr "डाटा ल्याउन त्रुटि:"
+
+#: detection/templates/home.html:799 detection/templates/home.html:866
+
+msgid "Yield Prediction"
+msgstr "हाम्रो पूर्वानुमान"
+
+#: detection/templates/home.html:813
+msgid "Calculating yield prediction..."
+msgstr "उपज पूर्वानुमान गणना गर्दै..."
+
+#: detection/templates/home.html:808
+msgid "Enter Location:"
+msgstr "स्थान प्रविष्ट गर्नुहोस्"
+
+#: detection/templates/home.html:813
+msgid "Calculate Yield Prediction"
+msgstr "उपज पूर्वानुमान गणना गर्नुहोस्"
+
+#: detection/templates/home.html:820
+
+msgid "Current Conditions"
+msgstr "हालको अवस्था"
+
+#: detection/templates/home.html:821
+msgid "Location:"
+msgstr "कार्यहरू"
+
+#: detection/templates/home.html:822
+msgid "Temperature"
+msgstr "अनुकूल तापमान:"
+
+#: detection/templates/home.html:823
+msgid "Weather:"
+msgstr "मौसम"
+
+#: detection/templates/home.html:826
+msgid "Plant Requirements"
+msgstr "वनस्पति वृद्धि आवश्यकताहरू"
+
+#: detection/templates/home.html:828
+msgid "Sunlight:"
+msgstr "सूर्यको प्रकाश"
+
+#: detection/templates/home.html:829
+msgid "Watering:"
+msgstr "पानी दिनु"
+
+#: detection/templates/home.html:844
+
+msgid "Recommendations"
+msgstr "उपचार सिफारिस"
+
+#: detection/templates/home.html:866
+msgid "Show Yield Prediction"
+msgstr "हाम्रो पूर्वानुमान"
+
+#: detection/templates/home.html:906
+#, fuzzy
+#| msgid "Plant Disease Detection"
+msgid "Please enter a location"
+msgstr "वनस्पति रोग पहिचान"
+
+#: detection/templates/home.html:943
+msgid "Invalid location. Please enter a valid city name."
+msgstr ""
+
+#: detection/templates/home.html:971
+msgid "Current conditions are optimal for this plant."
+msgstr ""
+
+#: detection/views.py:201
+#, fuzzy
+#| msgid "No treatment details available"
+msgid "Treatment information not available"
+msgstr "कुनै उपचार विवरण उपलब्ध छैन"
+
+#: detection/views.py:229
+#, fuzzy
+#| msgid "Our Prediction"
+msgid "Prediction error: "
+msgstr "हाम्रो पूर्वानुमान"
+
+#: detection/views.py:231
+msgid "Invalid request"
+msgstr ""
+
+#~ msgid "Upload Image"
+#~ msgstr "छवि अपलोड गर्नुहोस्"
+
+#~ msgid "Predict"
+#~ msgstr "पूर्वानुमान"
+
+#~ msgid "Please upload an image first"
+#~ msgstr "कृपया पहिले छवि अपलोड गर्नुहोस्"
+
+#~ msgid "Recommended Treatment"
+#~ msgstr "सिफारिस गरिएको उपचार"
+
+#~ msgid "Welcome to Plant Disease Detection!"
+#~ msgstr "वनस्पति रोग पहिचानमा स्वागत छ!"
+
+#~ msgid ""
+#~ "Upload an image of a plant leaf and our AI will analyze it to detect "
+#~ "potential diseases."
+#~ msgstr ""
+#~ "एक वनस्पति पातको छवि अपलोड गर्नुहोस् र हाम्रो एआईले सम्भावित रोगहरू पहिचान गर्न "
+#~ "यसलाई विश्लेषण गर्नेछ।"
+
+#~ msgid "Login"
+#~ msgstr "लगइन"
+
+#~ msgid "Sign Up"
+#~ msgstr "साइन अप"
+
+
+msgid "Apple___Apple_scab"
+msgstr "स्याउ___स्याउको खप्टे रोग"
+msgid "Apply copper-based fungicides or fungicides containing captan or mancozeb during the early stages of infection. Remove infected leaves and fallen debris to prevent reinfection. Ensure proper air circulation by pruning infected parts of the tree."
+msgstr "संक्रमणको प्रारम्भिक चरणमा तामाजन्य (कपर-आधारित) फफूंदी नाशक वा क्याप्टान वा म्यानकोजेब भएको फफूंदी नाशक प्रयोग गर्नुहोस्। पुनःसंक्रमण रोक्नका लागि संक्रमित पातहरू र खसेका फोहोरहरू हटाउनुहोस्। रूखको संक्रमित भागहरू काटछाँट गरेर उचित हावापास सुनिश्चित गर्नुहोस्।"
+msgid "Apple___Black_rot"
+msgstr "स्याउ___कालो कुहिने रोग"
+msgid "Remove infected branches and leaves immediately. Apply fungicides such as captan, copper-based treatments, or mancozeb to protect healthy tissue. Practice good orchard hygiene and ensure proper spacing for better airflow."
+msgstr "संक्रमित हाँगाहरू र पातहरू तुरुन्तै हटाउनुहोस्। स्वस्थ भागको संरक्षण गर्न क्याप्टान, तामा आधारित उपचारहरू, वा म्यानकोजेबजस्ता फफूंदी नाशकहरू प्रयोग गर्नुहोस्। बगैंचामा राम्रो सरसफाइ अभ्यास गर्नुहोस् र राम्रो हावापासका लागि उचित दूरी कायम गर्नुहोस्।"
+msgid "Apple___Cedar_apple_rust"
+msgstr "स्याउ___सीडर स्याउ रस्ट"
+msgid "Use fungicides like captan and mancozeb to control the infection. Remove infected leaves and prune surrounding cedar trees to reduce rust spread. Regularly inspect your trees and maintain good orchard hygiene."
+msgstr "संक्रमण नियन्त्रण गर्न क्याप्टान र म्यानकोजेबजस्ता फफूंदी नाशक प्रयोग गर्नुहोस्। संक्रमित पातहरू हटाउनुहोस् र रस्ट फैलिन नदिन वरपरका सिडर रूखहरू काटछाँट गर्नुहोस्। तपाईंका रूखहरू नियमित रूपमा निरीक्षण गर्नुहोस् र बगैंचामा राम्रो सरसफाइ कायम राख्नुहोस्।"
+msgid "Apple___healthy"
+msgstr "स्याउ___स्वस्थ"
+msgid "Ensure the plant receives adequate water, sunlight, and proper soil nutrition. Mulch around the base of the tree to retain moisture and suppress weeds. Regularly check for pests and prune dead or infected leaves to maintain overall plant health."
+msgstr "बोटले पर्याप्त पानी, घाम, र उचित माटोको पोषण प्राप्त गरिरहेको सुनिश्चित गर्नुहोस्। रूखको जरा वरिपरि मल्च हालेर नमी जोगाउन र झार दबाउन सहयोग गर्नुहोस्। कीराहरूको नियमित रूपमा जाँच गर्नुहोस् र सुकेका वा संक्रमित पातहरू काटछाँट गरेर बोटको समग्र स्वास्थ्य कायम राख्नुहोस्।"
+msgid "Blueberry___healthy"
+msgstr "ब्लुबेरी___स्वस्थ"
+msgid "Maintain slightly acidic, well-drained soil for healthy blueberry plants. Water regularly but avoid waterlogging to prevent root rot. Apply organic mulch around the base of the plant to retain moisture and control weeds."
+msgstr "स्वस्थ ब्लुबेरी बोटका लागि अलिकति अम्लीय र राम्रोसँग निकास भएको माटो कायम राख्नुहोस्। नियमित रूपमा पानी हाल्नुहोस् तर जराहरू कुहिने खतरा कम गर्न पानी जम्न नदिनुहोस्। बोटको आधार वरिपरि जैविक मल्च प्रयोग गरेर नमी जोगाउनुहोस् र झार नियन्त्रण गर्नुहोस्।"
+msgid "Cherry_(including_sour)___Powdery_mildew"
+msgstr "चेरी (खट्टा चेरी समेत)___पाउडरी फफूंदी"
+msgid "Apply sulfur-based fungicides or neem oil to control powdery mildew. Remove infected leaves and debris to prevent the spread of spores. Prune the tree to allow better airflow and reduce fungal infections."
+msgstr "पाउडरी फफूंदी नियन्त्रण गर्न गन्धक-आधारित फफूंदी नाशक वा निमको तेल प्रयोग गर्नुहोस्। स्पोर्सहरू फैलिन नदिन संक्रमित पातहरू र फोहोर हटाउनुहोस्। राम्रो हावापासको लागि रूखको काटछाँट गर्नुहोस् र फफूंदीजन्य संक्रमण घटाउनुहोस्।"
+msgid "Cherry_(including_sour)___healthy"
+msgstr "चेरी (खट्टा चेरी समेत)___स्वस्थ"
+msgid "Ensure adequate water, sunlight, and proper soil drainage for healthy cherry trees. Prune dead wood and remove fallen leaves to reduce pest and disease risks. Fertilize with balanced nutrients to support growth and fruiting."
+msgstr "स्वस्थ चेरी रूखका लागि पर्याप्त पानी, घाम, र उचित माटो निकास सुनिश्चित गर्नुहोस्। सुकाएका हाँगाहरू काट्नुहोस् र खसेका पातहरू टाउनुहोस् जसले किरा र रोगको जोखिम घटाउँछ। बोटको वृद्धि र फल लाग्न सहयोग गर्न सन्तुलित पोषक तत्वयुक्त मल प्रयोग गर्नुहोस्।"
+msgid "Corn_(maize)___Cercospora_leaf_spot Gray_leaf_spot"
+msgstr "मकै___सर्सपोरा पातको दाग ग्रे पात दाग"
+msgid "Apply fungicides containing azoxystrobin or chlorothalonil to prevent further infection. Rotate crops annually to reduce pathogen buildup. Remove infected leaves and dispose of them properly to limit disease spread."
+msgstr "थप संक्रमण रोक्नको लागि अजोक्सिस्ट्रोबिन वा क्लोरोथालोनिल भएको फफूंदी नाशक प्रयोग गर्नुहोस्। रोगजन्य जीवाणुको संचित असर घटाउन बाली हरेक वर्ष परिवर्तन (रोटेसन) गर्नुहोस्। संक्रमित पातहरू हटाएर सही तरिकाले नष्ट गर्नुहोस् ताकि रोग नफैलियोस्।"
+msgid "Corn_(maize)__Common_rust"
+msgstr "मकै___सामान्य रस्ट"
+msgid "Use resistant corn varieties and apply fungicides like azoxystrobin or propiconazole during early growth. Ensure proper crop rotation to reduce pathogen buildup. Remove infected plants and debris after harvest to reduce future risks."
+msgstr "रोग प्रतिरोधी मकैको जातहरू प्रयोग गर्नुहोस् र वृद्धि प्रारम्भिक चरणमा अजोक्सिस्ट्रोबिन वा प्रोपीकोनाजोलजस्ता फफूंदी नाशक प्रयोग गर्नुहोस्। रोगजनक घटाउन बाली फेर्ने अभ्यास गर्नुहोस्। रोगको भविष्यको जोखिम कम गर्न कटनीपछि संक्रमित बोट र फोहोर हटाउनुहोस्।"
+msgid "Corn_(maize)___Northern_Leaf_Blight"
+msgstr "मकै___उत्तरी पात झुल"
+msgid "Apply fungicides like chlorothalonil during early growth stages. Rotate crops and remove infected plant parts to reduce disease spread. Ensure proper soil drainage and avoid planting maize in the same location every year."
+msgstr "प्रारम्भिक वृद्धि चरणमा क्लोरोथालोनिलजस्ता फफूंदी नाशक प्रयोग गर्नुहोस्। बाली फेर्नुहोस् र संक्रमित भागहरू हटाउनुहोस् ताकि रोग फैलन नदिइयोस्। राम्रो माटोको निकास सुनिश्चित गर्नुहोस् र हरेक वर्ष एउटै ठाउँमा मकै नरोप्नुहोस्।"
+msgid "Corn_(maize)___healthy"
+msgstr "मकै___स्वस्थ"
+msgid "Ensure consistent watering, especially during flowering, and provide adequate nitrogen. Plant corn in well-drained, loamy soil with proper spacing for airflow. Control weeds and pests that may compete for nutrients."
+msgstr "फूल फुल्ने समयमा विशेष ध्यान दिँदै नियमित पानी दिनुहोस् र पर्याप्त नाइट्रोजन प्रदान गर्नुहोस्। मकैलाई राम्रोसँग निकास भएको दोमट माटोमा रोप्नुहोस् र हावापासको लागि उचित दूरी राख्नुहोस्। पोषणको प्रतिस्पर्धा गर्ने झारपात र कीराहरू नियन्त्रण गर्नुहोस्।"
+msgid "Grape___Black_rot"
+msgstr "अंगुर___कालो कुहिने रोग"
+msgid "Apply copper-based fungicides during the growing season to control black rot. Prune and remove any infected leaves and vines. Ensure proper airflow by spacing vines properly and consider using resistant grape varieties."
+msgstr "ब्ल्याक रट नियन्त्रण गर्न बृद्धि अवधिमा तामाजन्य फफूंदी नाशक प्रयोग गर्नुहोस्। संक्रमित पात र लत्तर हटाउनुहोस्। उचित दूरीमा लत्तर रोपेर हावापास सुनिश्चित गर्नुहोस् र रोग प्रतिरोधी अंगुरको जातहरू प्रयोग गर्न विचार गर्नुहोस्।"
+msgid "Grape___Esca_(Black_Measles)"
+msgstr "अंगुर___एस्का (कालो खैरापन)"
+msgid "Prune infected vines and apply sulfur or copper-based fungicides. Ensure proper vineyard hygiene by removing infected wood and treating with appropriate fungicides. Control vine pests that may spread the disease and maintain good soil health."
+msgstr "संक्रमित लत्तरहरू काट्नुहोस् र गन्धक वा तामाजन्य फफूंदी नाशक प्रयोग गर्नुहोस्। संक्रमित काठ हटाएर उपयुक्त फफूंदी नाशक प्रयोग गरेर राम्रो बगैंचा सरसफाइ कायम गर्नुहोस्। रोग फैलाउने लत्तर किरा नियन्त्रण गर्नुहोस् र माटोको स्वास्थ्य राम्रो राख्नुहोस्।"
+msgid "Grape___Leaf_blight_(Isariopsis_Leaf_Spot)"
+msgstr "अंगुर___पातको झुल (इसारियोप्सिस पात दाग)"
+msgid "Apply fungicides like mancozeb to control leaf blight. Remove infected leaves and ensure proper spacing for better airflow. Avoid overhead irrigation, which can spread fungal spores."
+msgstr "पात झुल नियन्त्रण गर्न म्यानकोजेबजस्ता फफूंदी नाशक प्रयोग गर्नुहोस्। संक्रमित पात हटाउनुहोस् र हावापासका लागि उचित दूरी कायम गर्नुहोस्। फफूंदी फैलन नदिन माथिबाट पानी हाल्ने विधि टार्नुहोस्।"
+msgid "Grape___healthy"
+msgstr "अंगुर___स्वस्थ"
+msgid "Regularly prune vines, ensure good drainage, and maintain proper spacing. Water regularly but avoid over-watering and check for pests and diseases. Ensure that vines receive adequate sunlight for healthy growth."
+msgstr "नियमित रूपमा लत्तर काट्नुहोस्, राम्रो निकास सुनिश्चित गर्नुहोस्, र उचित दूरी कायम राख्नुहोस्। नियमित रूपमा पानी दिनुहोस् तर अत्यधिक पानी नदिनुहोस्, र कीरा तथा रोगको जाँच गर्नुहोस्। स्वस्थ वृद्धि लागि पर्याप्त घाम सुनिश्चित गर्नुहोस्।"
+msgid "Orange___Haunglongbing_(Citrus_greening)"
+msgstr "सुन्तला___ह्वाङलुङबिङ (साइट्रस हरियो रोग)"
+msgid "Remove infected trees immediately to prevent the disease from spreading. Apply insecticides to control the citrus psyllid, which transmits the disease. Regularly inspect trees for early signs of infection and practice strict sanitation."
+msgstr "रोग फैलिन नदिन संक्रमित रूख तुरुन्त हटाउनुहोस्। रोग सार्ने सिट्रस सायलिड नियन्त्रण गर्न कीटनाशक प्रयोग गर्नुहोस्। संक्रमणको प्रारम्भिक लक्षणको लागि नियमित रूपमा रूखको निरीक्षण गर्नुहोस् र कडाइका साथ सरसफाइ अभ्यास गर्नुहोस्।"
+msgid "Peach___Bacterial_spot"
+msgstr "आरु___ब्याक्टेरियल दाग"
+msgid "Remove infected branches and apply copper-based fungicides. Avoid overhead irrigation, as it spreads bacteria. Use resistant peach varieties and practice crop rotation to minimize the spread of bacterial pathogens."
+msgstr "संक्रमित हाँगाहरू हटाउनुहोस् र तामाजन्य फफूंदी नाशक प्रयोग गर्नुहोस्। माथिबाट पानी हाल्न नदिनुहोस् किनकि यसले ब्याक्टेरिया फैलाउँछ। रोग प्रतिरोधी आरु जातहरू प्रयोग गर्नुहोस् र बाली फेर्ने अभ्यास गर्नुहोस्।"
+msgid "Peach___healthy"
+msgstr "आरु___स्वस्थ"
+msgid "Water regularly, provide adequate sunlight, and maintain well-drained soil. Prune dead wood and maintain organic mulch to retain moisture and suppress weeds. Fertilize with balanced nutrients to encourage strong growth and fruit production."
+msgstr "नियमित रूपमा पानी दिनुहोस्, पर्याप्त घाम सुनिश्चित गर्नुहोस्, र राम्रो निकास भएको माटो प्रयोग गर्नुहोस्। सुकाएका हाँगाहरू काट्नुहोस् र नमी जोगाउन तथा झार दबाउन जैविक मल्च प्रयोग गर्नुहोस्। सन्तुलित पोषक तत्वयुक्त मल प्रयोग गरेर राम्रो वृद्धि र फलफूल सुनिश्चित गर्नुहोस्।"
+msgid "Pepper,_bell___Bacterial_spot"
+msgstr "खुर्सानी (ठूलो)___ब्याक्टेरियल दाग"
+msgid "Remove infected plants and apply bactericides like copper-based products. Avoid overhead watering as it can spread the bacteria. Rotate crops to prevent the buildup of bacterial pathogens in the soil."
+msgstr "संक्रमित बोट हटाउनुहोस् र तामाजन्य उत्पादनजस्ता ब्याक्टेरिसाइड प्रयोग गर्नुहोस्। माथिबाट पानी हाल्नु हुँदैन किनभने यसले ब्याक्टेरिया फैलाउँछ। माटोमा ब्याक्टेरियाको सङ्कलन रोक्न बाली फेर्ने अभ्यास गर्नुहोस्।"
+msgid "Pepper,_bell___healthy"
+msgstr "खुर्सानी (ठूलो)___स्वस्थ"
+msgid "Water bell peppers regularly, especially during flowering. Ensure they receive organic fertilizers and mulch to retain moisture. Check for pests and diseases and remove any affected plants immediately."
+msgstr "फूल फुल्ने बेला विशेष ध्यान दिएर नियमित रूपमा पानी दिनुहोस्। जैविक मल प्रयोग गर्नुहोस् र नमी जोगाउन मल्च हाल्नुहोस्। कीरा तथा रोगहरूको जाँच गर्नुहोस् र संक्रमित बोटहरू तुरुन्त हटाउनुहोस्।"
+msgid "Potato___Early_blight"
+msgstr "आलु___पहिलो झुल"
+msgid "Apply fungicides like chlorothalonil to control early blight. Remove infected leaves and avoid overhead irrigation. Practice crop rotation and ensure good soil drainage to prevent future outbreaks."
+msgstr "अर्ली ब्लाइट नियन्त्रण गर्न क्लोरोथालोनिलजस्ता फफूंदी नाशक प्रयोग गर्नुहोस्। संक्रमित पातहरू हटाउनुहोस् र माथिबाट पानी हाल्न नदिनुहोस्। बाली फेर्ने अभ्यास गर्नुहोस् र राम्रो माटो निकास सुनिश्चित गर्नुहोस्।"
+msgid "Potato___Late_blight"
+msgstr "आलु___ढिलो झुल"
+msgid "Apply fungicides during wet weather to prevent late blight. Remove infected leaves and stems and dispose of them away from the field. Rotate crops and avoid over-watering to reduce the humidity that promotes blight."
+msgstr "विलम्ब ब्लाइट नियन्त्रण गर्न ओसिलो मौसममा फफूंदी नाशक प्रयोग गर्नुहोस्। संक्रमित पात र हाँगाहरू हटाएर खेतबाट बाहिर नष्ट गर्नुहोस्। बाली फेर्नुहोस् र अत्यधिक पानी नदिनुहोस् ताकि रोग फैलाउने ओस घटोस्।"
+msgid "Potato___healthy"
+msgstr "आलु___स्वस्थ"
+msgid "Ensure potatoes are planted in well-drained soil with adequate sunlight. Water regularly, especially during dry periods, and apply balanced fertilizers. Mulch around the plants to retain moisture and reduce weed competition."
+msgstr "आलुहरू राम्रोसँग निकास भएको माटोमा, पर्याप्त घाम लाग्ने ठाउँमा रोप्नुहोस्। सुख्खा मौसममा विशेष गरी नियमित रूपमा पानी दिनुहोस् र सन्तुलित मल प्रयोग गर्नुहोस्। नमी जोगाउन र झार घटाउन बोट वरिपरि मल्च प्रयोग गर्नुहोस्।"
+msgid "Raspberry___healthy"
+msgstr "रास्पबेरी___स्वस्थ"
+msgid "Raspberries require slightly acidic, well-drained soil and regular watering. Prune dead or damaged canes to encourage healthy new growth. Mulch around the base to retain moisture and prevent weed growth."
+msgstr "रास्पबेरीका लागि अलिकति अम्लीय र राम्रो निकास भएको माटो आवश्यक हुन्छ। नियमित पानी दिनुहोस्। मरेका वा बिग्रिएका टुसाहरू काट्नुहोस् ताकि नयाँ स्वस्थ वृद्धि होस्। नमी जोगाउन र झार नियन्त्रण गर्न मल्च प्रयोग गर्नुहोस्।"
+msgid "Soybean___healthy"
+msgstr "सोयाबिन___स्वस्थ"
+msgid "Soybeans need good drainage, proper spacing, and regular watering. Fertilize with nitrogen-rich compounds to support healthy growth. Rotate crops to avoid soil-borne diseases and improve soil fertility."
+msgstr "सोयाबिनलाई राम्रो निकास, उचित दूरी, र नियमित पानी आवश्यक पर्छ। नाइट्रोजनयुक्त मल प्रयोग गर्नुहोस् ताकि राम्रो वृद्धि होस्। बाली फेरेर माटोको रोग घटाउनुहोस् र उर्वरता सुधार गर्नुहोस्।"
+msgid "Squash___Powdery_mildew"
+msgstr "स्क्वास___पाउडरी फफूंदी"
+msgid "Apply sulfur-based fungicides or neem oil to control powdery mildew. Remove infected leaves and ensure proper spacing for air circulation. Avoid overhead irrigation to prevent the spread of fungal spores."
+msgstr "पाउडरी फफूंदी नियन्त्रण गर्न गन्धक-आधारित फफूंदी नाशक वा निमको तेल प्रयोग गर्नुहोस्। संक्रमित पातहरू हटाउनुहोस् र हावापासका लागि उचित दूरी राख्नुहोस्। फफूंदीको स्पोर्स फैलन नदिन माथिबाट पानी हाल्न नदिनुहोस्।"
+msgid "Strawberry___Leaf_scorch"
+msgstr "स्ट्रबेरी___पातको डढेलो"
+msgid "Remove affected leaves and apply copper-based fungicides. Water at the base of the plants and avoid wetting the foliage. Mulch around the plants to retain moisture and prevent weed growth."
+msgstr "संक्रमित पातहरू हटाउनुहोस् र तामाजन्य फफूंदी नाशक प्रयोग गर्नुहोस्। बोटको आधारमा पानी हाल्नुहोस् र पात नभिज्ने प्रयास गर्नुहोस्। नमी जोगाउन र झार घटाउन बोट वरिपरि मल्च हाल्नुहोस्।"
+msgid "Strawberry___healthy"
+msgstr "स्ट्रबेरी___स्वस्थ"
+msgid "Ensure strawberries receive well-drained, slightly acidic soil. Mulch to retain moisture and prevent weed competition. Monitor plants for pests and diseases and ensure they receive full sunlight."
+msgstr "स्ट्रबेरीलाई राम्रो निकास भएको अलिकति अम्लीय माटो आवश्यक हुन्छ। नमी जोगाउन र झार रोक्न मल्च प्रयोग गर्नुहोस्। कीरा तथा रोगहरूको निगरानी गर्नुहोस् र पर्याप्त घाम सुनिश्चित गर्नुहोस्।"
+msgid "Tomato___Bacterial_spot"
+msgstr "गोलभेंडा___ब्याक्टेरियल दाग"
+msgid "Remove infected plant material and apply bactericides like copper-based fungicides. Ensure good air circulation by spacing plants properly. Avoid overhead watering and rotate crops to prevent bacterial buildup."
+msgstr "संक्रमित भागहरू हटाउनुहोस् र तामाजन्य फफूंदी नाशक प्रयोग गर्नुहोस्। बोटहरू बीचको दूरी ठीक राखेर हावापास सुनिश्चित गर्नुहोस्। माथिबाट पानी हाल्न नदिनुहोस् र बाली फेरेर ब्याक्टेरिया संकलन रोक्नुहोस्।"
+msgid "Tomato___Early_blight"
+msgstr "गोलभेंडा___पहिलो झुल"
+msgid "Apply fungicides like chlorothalonil and remove infected leaves. Ensure good spacing and avoid working in wet conditions to reduce fungal spread. Prune dead or diseased leaves to maintain plant health."
+msgstr "क्लोरोथालोनिलजस्ता फफूंदी नाशक प्रयोग गर्नुहोस् र संक्रमित पातहरू हटाउनुहोस्। बोटहरूको दूरी सुनिश्चित गर्नुहोस् र भिजेको अवस्थामा काम नगर"
+msgid "Tomato___Late_blight"
+msgstr "गोलभेंडा___ढिलो झुल"
+
+msgid "Apply fungicides during wet weather and remove infected plants immediately. Rotate crops to reduce the spread of the disease and avoid over-wateringEnsure proper soil drainage and good air circulation around plants."
+msgstr "ओसिलो मौसममा फफूंदी नाशक प्रयोग गर्नुहोस् र संक्रमित बोटहरू तुरुन्त हटाउनुहोस्। बाली फेर्नुहोस् र अत्यधिक पानी नदिनुहोस्। राम्रो माटो निकास र हावापास सुनिश्चित गर्नुहोस्। " 
+
+msgid "Tomato___Leaf_Mold"
+msgstr "गोलभेंडा___पातको ढुसी"
+
+msgid "Prune plants to increase airflow and reduce humidity. Apply copper-based fungicides to control the infection. Remove infected leaves and avoid overhead watering."
+msgstr "हावापास सुधार गर्न बोट काटछाँट गर्नुहोस् र आर्द्रता घटाउनुहोस्। तामाजन्य फफूंदी नाशक प्रयोग गर्नुहोस्। संक्रमित पातहरू हटाउनुहोस् र माथिबाट पानी हाल्न नदिनुहोस्। "
+
+msgid "Tomato___Septoria_leaf_spot"
+msgstr "गोलभेंडा___सेप्टोरिया पात दाग"
+
+msgid "Remove infected leaves and apply fungicides containing chlorothalonil or mancozeb. Ensure good spacing between plants to reduce humidity and promote airflow. Avoid working with wet plants and sanitize tools to prevent disease spread. "
+msgstr "संक्रमित पातहरू हटाउनुहोस् र क्लोरोथालोनिल वा म्यानकोजेब भएको फफूंदी नाशक प्रयोग गर्नुहोस्। बोटहरूको दूरी कायम गरेर हावापास बढाउनुहोस्। भिजेको बोटमा काम नगर्नुहोस् र उपकरणहरू सफा राख्नुहोस्। "
+
+msgid "Tomato___Spider_mites Two-spotted_spider_mite"
+msgstr "गोलभेंडा___माकुरो किरा (दुई थोप्लो माकुरो)"
+
+msgid "Use miticides like abamectin or neem oil to control spider mites. Regularly rinse plants with water to remove mites and their webs. Remove infected leaves and check for new signs of mite activity."
+msgstr "स्पाइडर माइट नियन्त्रण गर्न अबामेक्टिन वा निमको तेलजस्ता माइटिसाइड प्रयोग गर्नुहोस्। नियमित रूपमा पानीले बोट धुने गर्नुहोस् ताकि माइट र त्यसका जाल हटाइयोस्।संक्रमित पातहरू हटाउनुहोस् र नयाँ संक्रमणको जाँच गर्नुहोस्।"
+
+msgid "Tomato___Target_Spot"
+msgstr "गोलभेंडा___टार्गेट स्पट"
+
+msgid "Apply fungicides containing mancozeb to control target spot. Remove infected leaves immediately and ensure proper plant spacing. Rotate crops and practice good soil management to reduce the disease. "
+msgstr "नियन्त्रण गर्न म्यानकोजेब भएको फफूंदी नाशक प्रयोग गर्नुहोस्। संक्रमित पातहरू तुरुन्त हटाउनुहोस् र बोटको दूरी कायम राख्नुहोस्। बाली फेर्नुहोस् र माटोको राम्रो व्यवस्थापन गर्नुहोस्। "
+
+msgid "Tomato___Tomato_Yellow_Leaf_Curl_Virus"
+msgstr "गोलभेंडा___गोलभेंडा पहेंलो पात कर्ल भाइरस"
+
+msgid "Remove infected plants and control aphid populations using insecticides. Sanitize tools and avoid using infected transplants. Maintain strict sanitation protocols to prevent further spread of the virus. "
+msgstr "संक्रमित बोटहरू हटाउनुहोस् र एफिडको संख्या घटाउन कीटनाशक प्रयोग गर्नुहोस्। उपकरणहरू सफा गर्नुहोस् र संक्रमित बिरुवा प्रयोग नगर्नुहोस्। थप फैलावट रोक्न कडाइका साथ सरसफाइ गर्नुहोस्। "
+
+msgid "Tomato___Tomato_mosaic_virus"
+msgstr "गोलभेंडा___गोलभेंडा मोजाइक भाइरस"
+
+msgid "Remove and destroy infected plants immediately to prevent spread. Control aphids, which spread the virus, by using insecticides.Sanitize tools and avoid using infected transplants."
+msgstr "संक्रमित बोटहरू तुरुन्त हटाएर नष्ट गर्नुहोस्। यो भाइरस फैलाउने एफिडहरू नियन्त्रण गर्न कीटनाशक प्रयोग गर्नुहोस्। उपकरणहरू सफा गर्नुहोस् र संक्रमित बिरुवा प्रयोग नगर्नुहोस्। "
+
+msgid "Tomato___healthy"
+msgstr "गोलभेंडा___स्वस्थ"
+
+msgid "Provide regular watering and balanced fertilization for healthy tomato growth. Ensure adequate sunlight for photosynthesis and prune damaged leaves.Monitor for pests and remove infected parts to prevent further damage."
+msgstr "नियमित रूपमा पानी दिनुहोस् र सन्तुलित मल प्रयोग गर्नुहोस्। पर्याप्त घाम सुनिश्चित गर्नुहोस् रबिग्रिएका पातहरू काट्नुहोस्। कीरा तथा रोगहरूको निगरानी गर्नुहोस् र संक्रमित भागहरू हटाउनुहोस्। "
+
+msgid "not_a_leaf"
+msgstr "पात होइन"
+
+msgid "Excellent"
+msgstr "उत्कृष्ट"
+
+msgid "Expected to produce maximum yield"
+msgstr "अधिकतम उत्पादन हुने अपेक्षा"
+
+msgid "Good"
+msgstr "राम्रो"
+
+msgid "Expected to produce good yield"
+msgstr "राम्रो उत्पादन हुने अपेक्षा"
+
+msgid "Average"
+msgstr "औसत"
+
+msgid "Expected to produce average yield"
+msgstr "औसत उत्पादन हुने अपेक्षा"
+
+msgid "Below Average"
+msgstr "औसतभन्दा कम"
+
+msgid "Expected to produce below average yield"
+msgstr "औसतभन्दा कम उत्पादन हुने अपेक्षा"
+
+msgid "Poor"
+msgstr "कमजोर"
+
+msgid "Expected to produce poor yield"
+msgstr "कमजोर उत्पादन हुने अपेक्षा"

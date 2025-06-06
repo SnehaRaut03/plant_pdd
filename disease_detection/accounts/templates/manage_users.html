@@ -1,7 +1,8 @@
+{% load i18n %}
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Manage Users</title>
+    <title> {% trans "Manage Users" %}</title>
     <style>
         :root {
     --primary-color: #3a7e45;
@@ -225,6 +226,42 @@ body {
             color: var(--primary-color);
             font-weight: bold;
         }
+
+        .language-switcher p {
+    margin-right: 10px;
+    font-weight: 500;
+    color: var(--text-color);
+}
+.language-switcher {
+    display: flex;
+    align-items: center;
+    background-color: white;
+    padding: 8px 15px;
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+    margin-left: 75%; /* Push to the right */
+}
+
+.language-button {
+    padding: 8px 15px;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    font-weight: 500;
+    margin-left: 5px;
+    border: 1px solid var(--primary-color);
+    background-color: white;
+    color: var(--primary-color);
+    text-decoration: none;
+}
+
+.language-active {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+.language-inactive:hover {
+    background-color: var(--primary-light);
+}
     </style>
 </head>
 <body>
@@ -239,14 +276,14 @@ body {
                     <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
                     <polyline points="9 22 9 12 15 12 15 22"/>
                 </svg>
-                Home
+                {% trans "Home" %}
             </a>
             <a href="{% url 'profile' %}">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-user">
                     <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/>
                     <circle cx="12" cy="7" r="4"/>
                 </svg>
-                Profile
+                {% trans "Profile" %}
             </a>
         
             <a href="{% url 'history' %}">
@@ -255,7 +292,7 @@ body {
                     <path d="M3 3v5h5"/>
                     <path d="M12 7v5l4 2"/>
                 </svg>
-                History
+                {% trans "History" %}
             </a>
         </nav>
         <div class="sidebar-bottom">
@@ -267,37 +304,62 @@ body {
                         <polyline points="16 17 21 12 16 7"/>
                         <line x1="21" x2="9" y1="12" y2="12"/>
                     </svg>
-                    Logout
+                    {% trans "Logout" %}
                 </button>
             </form>
         </div>
+
     </div>
+   
     </div>
     
     <div class="main-content">
         <div class="container">
-            <h1>Manage Users</h1>
+            <div class="header">
+                <!-- <h1 class="header-text">{% trans "Detection History" %}</h1> -->
+                <div class="language-switcher">
+                    <p>{% trans "Language" %}:</p>
+                    <form action="{% url 'set_language' %}" method="post" style="display: inline;">
+                        {% csrf_token %}
+                        <input name="next" type="hidden" value="{{ request.path }}">
+                        <input name="language" type="hidden" value="en">
+                        <button type="submit" class="language-button {% if LANGUAGE_CODE == 'en' %}language-active{% else %}language-inactive{% endif %}">
+                            English
+                        </button>
+                    </form>
+                    
+                    <form action="{% url 'set_language' %}" method="post" style="display: inline;">
+                        {% csrf_token %}
+                        <input name="next" type="hidden" value="{{ request.path }}">
+                        <input name="language" type="hidden" value="ne">
+                        <button type="submit" class="language-button {% if LANGUAGE_CODE == 'ne' %}language-active{% else %}language-inactive{% endif %}">
+                            नेपाली
+                        </button>
+                    </form>
+                </div>
+            </div>
+            <h1>{% trans "Manage Users" %}</h1>
 
             <div class="stats-cards">
                 <div class="stat-card">
                     <div class="stat-number">{{ total_users }}</div>
-                    <div>Total Users</div>
+                    <div>{% trans "Total Users" %}</div>
                 </div>
                 <div class="stat-card">
                     <div class="stat-number">{{ total_detections }}</div>
-                    <div>Total Detections</div>
+                    <div>{% trans "Total Detections" %}</div>
                 </div>
             </div>
 
             <table class="user-table">
                 <thead>
                     <tr>
-                        <th>Username</th>
-                        <th>Email</th>
-                        <th>Join Date</th>
-                        <th>Last Login</th>
-                        <th>Detections</th>
-                        <th>Actions</th>
+                        <th>{% trans "Username" %}</th>
+                        <th>{% trans "Email" %}</th>
+                        <th>{% trans "Join Date" %}</th>
+                        <th>{% trans "Last Login" %}</th>
+                        <th>{% trans "Detections" %}</th>
+                        <th>{% trans "Actions" %}</th>
                     </tr>
                 </thead>
                 <tbody>
